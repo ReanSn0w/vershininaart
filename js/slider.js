@@ -1,24 +1,3 @@
-const works = [
-  {
-    image: "assets/images/skelet-work-1.png",
-    alt: "Скульптура Скелет кита — вид 1",
-    title: "Скелет кита",
-    year: "2025",
-    technique: "Гипс",
-    size: "48 × 12 × 13",
-    sheet: "1/2",
-  },
-  {
-    image: "assets/images/skelet-work-2.png",
-    alt: "Скульптура Скелет кита — вид 2",
-    title: "Скелет кита",
-    year: "2025",
-    technique: "Гипс",
-    size: "48 × 12 × 13",
-    sheet: "2/2",
-  },
-];
-
 const imageEl = document.querySelector("[data-artwork-image]");
 const navPrev = document.querySelector(".nav--prev");
 const navNext = document.querySelector(".nav--next");
@@ -163,4 +142,3 @@ attachSwipe(imageEl);
 
 initDots();
 updateView(activeIndex);
-

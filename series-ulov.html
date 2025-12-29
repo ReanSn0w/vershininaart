@@ -43,8 +43,6 @@
             class="artwork"
             src="assets/images/ulov-work-1.png"
             alt="Графическая работа Улов"
-            width="873"
-            height="645"
             data-artwork-image
           />
 
@@ -80,7 +78,30 @@
     </main>
 
     <script src="js/theme.js"></script>
-    <script src="js/ulov.js"></script>
+    <script src="js/slider.js"></script>
+    <script>
+      const works = [
+        {
+          image: "assets/images/ulov-work-1.png",
+          alt: "Графическая работа Улов — лист 1",
+          title: "Улов",
+          year: "2025",
+          technique: "Линогравюра",
+          size: "29 × 29",
+          sheet: "1/2",
+        },
+        {
+          image: "assets/images/ulov-work-2.png",
+          alt: "Графическая работа Улов — лист 2",
+          title: "Улов",
+          year: "2025",
+          technique: "Линогравюра",
+          size: "29 × 29",
+          sheet: "2/2",
+        },
+      ];
+
+      initSlider();
+    </script>
   </body>
 </html>
-

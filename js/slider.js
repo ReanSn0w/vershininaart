@@ -1,24 +1,3 @@
-const works = [
-  {
-    image: "assets/images/skelet-work-1.png",
-    alt: "Скульптура Скелет кита — вид 1",
-    title: "Скелет кита",
-    year: "2025",
-    technique: "Гипс",
-    size: "48 × 12 × 13",
-    sheet: "1/2",
-  },
-  {
-    image: "assets/images/skelet-work-2.png",
-    alt: "Скульптура Скелет кита — вид 2",
-    title: "Скелет кита",
-    year: "2025",
-    technique: "Гипс",
-    size: "48 × 12 × 13",
-    sheet: "2/2",
-  },
-];
-
 const imageEl = document.querySelector("[data-artwork-image]");
 const navPrev = document.querySelector(".nav--prev");
 const navNext = document.querySelector(".nav--next");
@@ -29,7 +8,7 @@ const infoFields = {
   year: document.querySelector('[data-meta="year"]'),
   technique: document.querySelector('[data-meta="technique"]'),
   size: document.querySelector('[data-meta="size"]'),
-  sheet: document.querySelector('[data-meta="sheet"]'),
+  edition: document.querySelector('[data-meta="edition"]'),
 };
 
 let activeIndex = 0;
@@ -86,11 +65,13 @@ function initDots() {
 }
 
 function showNext() {
+  console.log("showNext вызвана, activeIndex:", activeIndex, "→", (activeIndex + 1) % works.length);
   activeIndex = (activeIndex + 1) % works.length;
   updateView(activeIndex);
 }
 
 function showPrev() {
+  console.log("showPrev вызвана, activeIndex:", activeIndex, "→", (activeIndex - 1 + works.length) % works.length);
   activeIndex = (activeIndex - 1 + works.length) % works.length;
   updateView(activeIndex);
 }
@@ -103,64 +84,56 @@ function attachSwipe(surface) {
   let startX = 0;
   let startY = 0;
   let isSwiping = false;
-  
-  surface.addEventListener(
-    "touchstart",
-    (event) => {
-      startX = event.touches[0]?.clientX ?? 0;
-      startY = event.touches[0]?.clientY ?? 0;
-      isSwiping = false;
-    },
-    { passive: true }
-  );
-  
-  surface.addEventListener(
-    "touchmove",
-    (event) => {
-      if (!startX) return;
-      const currentX = event.touches[0]?.clientX ?? 0;
-      const currentY = event.touches[0]?.clientY ?? 0;
-      const deltaX = Math.abs(currentX - startX);
-      const deltaY = Math.abs(currentY - startY);
-      
-      // Если горизонтальное движение больше вертикального, это свайп
-      if (deltaX > deltaY && deltaX > 10) {
-        isSwiping = true;
-      }
-    },
-    { passive: true }
-  );
-  
-  surface.addEventListener(
-    "touchend",
-    (event) => {
-      if (!startX || !isSwiping) {
-        startX = 0;
-        startY = 0;
-        return;
-      }
-      
-      const endX = event.changedTouches[0]?.clientX ?? 0;
-      const deltaX = endX - startX;
-      
-      if (Math.abs(deltaX) >= 40) {
-        if (deltaX < 0) {
-          showNext();
-        } else {
-          showPrev();
-        }
-      }
-      
+  let isStarted = false;
+
+  surface.addEventListener("touchstart", (event) => {
+    startX = event.touches[0]?.clientX ?? 0;
+    startY = event.touches[0]?.clientY ?? 0;
+    isSwiping = false;
+    isStarted = true;  // ✅
+  }, { passive: true });
+
+  surface.addEventListener("touchmove", (event) => {
+    if (!isStarted) return;
+    const currentX = event.touches[0]?.clientX ?? 0;
+    const currentY = event.touches[0]?.clientY ?? 0;
+    const deltaX = Math.abs(currentX - startX);
+    const deltaY = Math.abs(currentY - startY);
+
+    if (deltaX > deltaY && deltaX > 10) {
+      isSwiping = true;
+    }
+  }, { passive: true });
+
+  surface.addEventListener("touchend", (event) => {
+    if (!isStarted || !isSwiping) {
+      isStarted = false;
       startX = 0;
       startY = 0;
-      isSwiping = false;
-    },
-    { passive: true }
-  );
+      return;
+    }
+
+    const endX = event.changedTouches[0]?.clientX ?? 0;
+    const deltaX = endX - startX;
+
+    const minSwipeDistance = window.innerWidth < 720 ? 25 : 40;
+    if (Math.abs(deltaX) >= minSwipeDistance) {
+      if (deltaX < 0) {
+        showNext();
+      } else {
+        showPrev();
+      }
+    }
+
+    isStarted = false;
+    startX = 0;
+    startY = 0;
+    isSwiping = false;
+  }, { passive: true });
 }
 
-attachSwipe(imageEl);
-
-initDots();
-updateView(activeIndex);
-
+function initSlider() {
+  attachSwipe(stage);
+  initDots();
+  updateView(activeIndex);
+}

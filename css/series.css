@@ -59,6 +59,11 @@ body[data-theme="light"] .theme-toggle img {
   text-transform: uppercase;
   color: var(--muted-dark);
   transition: color 180ms ease;
+  cursor: pointer;
+  position: relative;
+  z-index: 100;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
 .site-header__back:hover,
@@ -81,6 +86,7 @@ body[data-theme="light"] .site-header__back:focus-visible {
   height: 24px;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
 }
 
 .site-header__back-icon img {
@@ -88,6 +94,10 @@ body[data-theme="light"] .site-header__back:focus-visible {
   height: 100%;
   display: block;
   transition: filter 180ms ease;
+}
+
+.site-header__back-label {
+  pointer-events: none;
 }
 
 .theme-toggle {

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fata Morgana — портфолио художника</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/series.css" />
+    <link rel="icon" href="assets/images/favicon.png" type="image/png" sizes="any" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__top">
+        <div class="site-header__brand">
+          <a class="site-header__back" href="index.html" aria-label="Назад">
+            <span class="site-header__back-icon" aria-hidden="true">
+              <img src="assets/images/btn_Back.svg" alt="" />
+            </span>
+            <span class="site-header__back-label">Назад</span>
+          </a>
+        </div>
+        <button class="theme-toggle" type="button" aria-label="Переключить тему">
+          <img src="assets/images/btn_light.svg" alt="" />
+        </button>
+      </div>
+    </header>
+
+    <main class="series">
+      <h1 class="series__title">FATA MORGANA</h1>
+
+      <div class="series__media">
+        <div class="series__stage">
+          <img
+            class="artwork"
+            src="assets/images/fata-morgana-work-1.jpg"
+            alt="Fata Morgana — темпера"
+            width="1000"
+            height="1000"
+          />
+        </div>
+
+        <dl class="series__info">
+          <div class="info__name">
+            <dd>FATA MORGANA</dd>
+          </div>
+          <div class="info__row">
+            <dt>Год создания работы:</dt>
+            <dd>2025</dd>
+          </div>
+          <div class="info__row">
+            <dt>Техника:</dt>
+            <dd>Темпера</dd>
+          </div>
+          <div class="info__row">
+            <dt>Размер:</dt>
+            <dd>100 × 100</dd>
+          </div>
+        </dl>
+      </div>
+    </main>
+
+    <script src="js/theme.js"></script>
+  </body>
+</html>
+

@@ -51,7 +51,7 @@ func prepareSingleImage(img *utils.Image, publicPath string) error {
 
 	// Сохраняем большое изображение в JPEG
 	largePath := fmt.Sprintf(publicPath+"/pic/%s.jpg", fileNameWithoutExt)
-	if err := saveWithQuality(largePath, srcImage, 95); err != nil {
+	if err := saveWithQuality(largePath, srcImage, 100); err != nil {
 		return fmt.Errorf("failed to save large image: %w", err)
 	}
 

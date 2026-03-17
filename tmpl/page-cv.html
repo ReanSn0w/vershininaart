@@ -1,0 +1,46 @@
+{{define "page-cv"}}
+<!doctype html>
+<html lang="ru">
+    <head>
+        {{template "part-head"}}
+        <title>CV — портфолио художника</title>
+        <link rel="stylesheet" href="/css/series.css" />
+        <link rel="stylesheet" href="/css/cv.css" />
+    </head>
+    <body>
+        {{template "part-header-page"}}
+
+        <main class="cv">
+            <h1 class="cv__title">{{ .Title }}</h1>
+            <div class="cv__content">
+                {{ range $idx, $sec := .CV }}
+                <section class="cv__section">
+                    <div class="cv__section-header">
+                        <h2 class="cv__section-title">{{ $sec.Title }}</h2>
+                        <div class="cv__section-items">
+                            {{ range $i, $it := $sec.Items }}
+                            <div class="cv__item">
+                                <div class="cv__item-header">
+                                    <span class="cv__item-title">
+                                        {{ $it.Title }}
+                                    </span>
+                                    <span class="cv__item-year"
+                                        >{{ $it.Year }}</span
+                                    >
+                                </div>
+                                <span class="cv__item-description">
+                                    {{ $it.Description }}
+                                </span>
+                            </div>
+                            {{ end }}
+                        </div>
+                    </div>
+                </section>
+                {{ end }}
+            </div>
+        </main>
+
+        <script src="/js/theme.js"></script>
+    </body>
+</html>
+{{end}}

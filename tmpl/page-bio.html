@@ -1,0 +1,33 @@
+{{define "page-bio"}}
+<!doctype html>
+<html lang="ru">
+    <head>
+        {{template "part-head"}}
+        <title>Bio — портфолио художника</title>
+        <link rel="stylesheet" href="/css/series.css" />
+        <link rel="stylesheet" href="/css/bio.css" />
+    </head>
+    <body>
+        {{template "part-header-page"}}
+
+        <main class="bio">
+            <h1 class="bio__title">{{.Title}}</h1>
+
+            <div class="bio__content">
+                <div class="bio__image">
+                    <img
+                        src="{{.Bio.Image.MaxQ}}"
+                        alt="{{.Bio.Image.Alt}}"
+                        width="400"
+                        height="600"
+                    />
+                </div>
+
+                <div class="bio__text">{{.BioMarkdown}}</div>
+            </div>
+        </main>
+
+        <script src="/js/theme.js"></script>
+    </body>
+</html>
+{{end}}

@@ -1,0 +1,219 @@
+{{define "page-index"}}
+<!doctype html>
+<html lang="ru">
+    <head>
+        {{ template "part-head" }}
+        <title>Anna Vershinina — Графика и печатные техники</title>
+        <link rel="stylesheet" href="/css/style.css" />
+    </head>
+    <body>
+        {{ template "part-header-index" }}
+
+        <main class="page">
+            <section class="slide" id="graphic-print">
+                <h1 class="slide__title">ГРАФИКА ПЕЧАТНЫЕ ТЕХНИКИ</h1>
+
+                <section class="slide__gallery" aria-label="Работы серии">
+                    <a class="card" href="series-rybaki.html">
+                        <figure class="card__media">
+                            <img
+                                src="assets/images/card-01.png"
+                                alt="Серия Рыбаки — линогравюра"
+                            />
+                        </figure>
+                        <div class="card__meta">
+                            <span class="card__index">1</span>
+                            <div class="card__info">
+                                <h2 class="card__title">Серия рыбаки</h2>
+                                <p class="card__technique">Линогравюра</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a class="card card--compact" href="series-harmony.html">
+                        <figure class="card__media">
+                            <img
+                                src="assets/images/card-02.png"
+                                alt="Серия Гармония — графика"
+                            />
+                        </figure>
+                        <div class="card__meta">
+                            <span class="card__index">2</span>
+                            <div class="card__info">
+                                <h2 class="card__title">Серия гармония</h2>
+                                <p class="card__technique">Графика</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a class="card card--ratio-356-325" href="series-ulov.html">
+                        <figure class="card__media">
+                            <img
+                                src="assets/images/card-03.png"
+                                alt="Серия Улов — линогравюра"
+                            />
+                        </figure>
+                        <div class="card__meta">
+                            <span class="card__index">3</span>
+                            <div class="card__info">
+                                <h2 class="card__title">Серия улов</h2>
+                                <p class="card__technique">Линогравюра</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a class="card card--medium" href="series-korabli.html">
+                        <figure class="card__media">
+                            <img
+                                src="assets/images/card-04.png"
+                                alt="Серия заброшенные корабли — графика"
+                            />
+                        </figure>
+                        <div class="card__meta">
+                            <span class="card__index">4</span>
+                            <div class="card__info">
+                                <h2 class="card__title">
+                                    Серия заброшенные корабли
+                                </h2>
+                                <p class="card__technique">Графика</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a class="card card--wide" href="series-vpotoke.html">
+                        <figure class="card__media">
+                            <img
+                                src="assets/images/card-06.png"
+                                alt="В потоке — линогравюра"
+                            />
+                        </figure>
+                        <div class="card__meta">
+                            <span class="card__index">5</span>
+                            <div class="card__info">
+                                <h2 class="card__title">в потоке</h2>
+                                <p class="card__technique">Линогравюра</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a class="card" href="series-gorod.html">
+                        <figure class="card__media">
+                            <img
+                                src="assets/images/card-10.png"
+                                alt="Серия Город — офорт"
+                            />
+                        </figure>
+                        <div class="card__meta">
+                            <span class="card__index">6</span>
+                            <div class="card__info">
+                                <h2 class="card__title">Серия город</h2>
+                                <p class="card__technique">Офорт</p>
+                            </div>
+                        </div>
+                    </a>
+                </section>
+            </section>
+
+            <section
+                class="slide slide--secondary"
+                id="paintings"
+                aria-labelledby="paintings-title"
+            >
+                <h2 class="slide__title" id="paintings-title">Живопись</h2>
+
+                <section class="slide__gallery" aria-label="Живопись">
+                    <a
+                        class="card card--ratio-358-268"
+                        href="series-baikal.html"
+                    >
+                        <figure class="card__media">
+                            <img
+                                src="assets/images/card-05.png"
+                                alt="Байкальская серия — смешанная техника"
+                            />
+                        </figure>
+                        <div class="card__meta">
+                            <span class="card__index">1</span>
+                            <div class="card__info">
+                                <h2 class="card__title">Байкальская серия</h2>
+                                <p class="card__technique">Смешанная техника</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a
+                        class="card card--ratio-358-268"
+                        href="series-olhon.html"
+                    >
+                        <figure class="card__media">
+                            <img
+                                src="assets/images/card-08.png"
+                                alt="Ольхон — темпера"
+                            />
+                        </figure>
+                        <div class="card__meta">
+                            <span class="card__index">2</span>
+                            <div class="card__info">
+                                <h2 class="card__title">Ольхон</h2>
+                                <p class="card__technique">Темпера</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a
+                        class="card card--ratio-358-268"
+                        href="series-fata-morgana.html"
+                    >
+                        <figure class="card__media">
+                            <img
+                                src="assets/images/fata-morgana-work-1.jpg"
+                                alt="Fata Morgana — темпера"
+                            />
+                        </figure>
+                        <div class="card__meta">
+                            <span class="card__index">3</span>
+                            <div class="card__info">
+                                <h2 class="card__title">Fata Morgana</h2>
+                                <p class="card__technique">Темпера</p>
+                            </div>
+                        </div>
+                    </a>
+                </section>
+            </section>
+
+            <section
+                class="slide slide--secondary"
+                id="sculpture"
+                aria-labelledby="sculpture-title"
+            >
+                <h2 class="slide__title" id="sculpture-title">СКУЛЬПТУРА</h2>
+
+                <section class="slide__gallery" aria-label="Скульптура">
+                    <a class="card" href="series-skelet.html">
+                        <figure class="card__media">
+                            <img
+                                src="assets/images/card-07.png"
+                                alt="Скелет кита — гипс"
+                            />
+                        </figure>
+                        <div class="card__meta">
+                            <span class="card__index">1</span>
+                            <div class="card__info">
+                                <h2 class="card__title">Скелет кита</h2>
+                                <p class="card__technique">Гипс</p>
+                            </div>
+                        </div>
+                    </a>
+                </section>
+            </section>
+        </main>
+
+        <button class="back-to-top" type="button" aria-label="Вернуться наверх">
+            <img src="/img/btn_Up.svg" alt="" />
+        </button>
+
+        <script src="/js/theme.js"></script>
+        <script src="/js/main.js"></script>
+    </body>
+</html>
+{{end}}

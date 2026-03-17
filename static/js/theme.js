@@ -1,11 +1,11 @@
 const THEME_BUTTONS = document.querySelectorAll(".theme-toggle");
 const THEME_ASSETS = {
   dark: {
-    icon: "assets/images/btn_light.svg",
+    icon: "/img/btn_light.svg",
     label: "Включить светлую тему",
   },
   light: {
-    icon: "assets/images/btn_dark.svg",
+    icon: "/img/btn_dark.svg",
     label: "Включить тёмную тему",
   },
 };

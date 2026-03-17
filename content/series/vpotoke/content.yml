@@ -1,0 +1,10 @@
+tmpl: page-series
+title: В потоке
+works:
+  - title: "В потоке"
+    image:
+      src: vpotoke-work1.png
+      alt: "Графическая работа В потоке"
+    year: "2023"
+    technique: "Линогравюра"
+    size: "58 × 32"

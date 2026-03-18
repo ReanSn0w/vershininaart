@@ -19,6 +19,7 @@ type Image struct {
 
 type Page struct {
 	FileLocation string `yaml:"-"`
+	PlainPath    string `yaml:"-"`
 
 	// Название шаблона для страницы
 	TMPL string `yaml:"tmpl"`
@@ -28,6 +29,11 @@ type Page struct {
 
 	// Коллекция
 	Collection string `yaml:"collection"`
+
+	// Костомизация карточки материала
+	Card struct {
+		CustomClass string `yaml:"custom_class"`
+	} `yaml:"card"`
 
 	// Информация для главной страницы сайта
 	Index []struct {
@@ -74,4 +80,19 @@ type Page struct {
 func (p Page) BioMarkdown() template.HTML {
 	html := blackfriday.Run([]byte(p.Bio.Text))
 	return template.HTML(html)
+}
+
+func (p Page) IsSingleWork() bool {
+	return len(p.Works) < 2
+}
+
+func (p Page) FirstWork() struct {
+	Image     Image  `yaml:"image"`
+	Title     string `yaml:"title"`
+	Year      string `yaml:"year"`
+	Technique string `yaml:"technique"`
+	Size      string `yaml:"size"`
+	Sheet     string `yaml:"sheet"`
+} {
+	return p.Works[0]
 }

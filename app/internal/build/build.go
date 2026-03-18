@@ -83,7 +83,7 @@ type Collections map[string][]utils.Page
 func packByCollection(index utils.Page, pages []utils.Page) utils.Page {
 	for i, c := range index.Index {
 		for _, p := range pages {
-			if p.Collection == c.Tag {
+			if p.Collection != c.Tag {
 				continue
 			}
 

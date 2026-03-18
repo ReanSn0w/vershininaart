@@ -8,7 +8,7 @@ const infoFields = {
   year: document.querySelector('[data-meta="year"]'),
   technique: document.querySelector('[data-meta="technique"]'),
   size: document.querySelector('[data-meta="size"]'),
-  edition: document.querySelector('[data-meta="edition"]'),
+  sheet: document.querySelector('[data-meta="sheet"]'),
 };
 
 let activeIndex = 0;

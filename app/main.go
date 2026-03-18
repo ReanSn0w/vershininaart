@@ -21,11 +21,11 @@ var (
 		} `group:"Application Actions"`
 
 		Server struct {
-			Port int `long:"port" default:"5001" description:"server port"`
+			Port int `long:"port" env:"PORT" default:"8080" description:"server port"`
 		} `group:"HTTP Server" namespace:"server" env-namespace:"SERVER"`
 
 		Image struct {
-			ThumbWidth int `long:"thumb" default:"150" description:"thumb max width"`
+			ThumbWidth int `long:"thumb" default:"400" description:"thumb max width"`
 		} `group:"Image Settings" namespace:"image"`
 
 		Dir struct {

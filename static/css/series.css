@@ -16,8 +16,15 @@ body {
   min-height: 100vh;
   background: var(--bg-dark);
   color: var(--text-dark);
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  transition: background 220ms ease, color 220ms ease;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  transition:
+    background 220ms ease,
+    color 220ms ease;
 }
 
 body[data-theme="light"] {
@@ -184,9 +191,9 @@ main.series {
 
 .artwork {
   width: 100%;
-  aspect-ratio: 873 / 645;
   object-fit: contain;
   display: block;
+  aspect-ratio: 873 / 645;
   border-radius: 12px;
 }
 
@@ -209,7 +216,12 @@ main.series {
 
 .series__info .info__name dd {
   margin: 0;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -337,6 +349,7 @@ body[data-theme="light"] .slider-dot.active {
 @media (max-width: 560px) {
   .artwork {
     width: clamp(180px, 84vw, 520px);
+    aspect-ratio: auto;
   }
 }
 
@@ -345,6 +358,7 @@ body[data-theme="light"] .slider-dot.active {
     opacity: 0;
     transform: translateY(6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"gopkg.in/yaml.v3"
 )
@@ -54,7 +55,20 @@ func CopyStatic(fromDir, toDir string) error {
 }
 
 func LoadTemplates(path string) (*template.Template, error) {
-	return template.ParseGlob(path + "/*.html")
+	tmpl := template.New("ssg")
+
+	tmpl = tmpl.Funcs(template.FuncMap{
+		"add": func(a, b int) int {
+			return a + b
+		},
+	})
+
+	tmpl, err := tmpl.ParseGlob(path + "/*.html")
+	if err != nil {
+		return nil, err
+	}
+
+	return tmpl, nil
 }
 
 func ScanPages(path string) ([]Page, error) {
@@ -81,6 +95,7 @@ func ScanPages(path string) ([]Page, error) {
 			}
 
 			page.FileLocation = file
+			page.PlainPath = strings.TrimSuffix(strings.TrimPrefix(file, path), "/content.yml")
 
 			if page.Bio.Image.Src != "" {
 				page.Bio.Image.Src = filepath.Dir(file) + "/" + page.Bio.Image.Src

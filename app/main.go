@@ -31,7 +31,7 @@ var (
 		Dir struct {
 			Content string `long:"content" default:"./content" description:"content data location"`
 			Static  string `long:"static" default:"./static" description:"static content location"`
-			Public  string `long:"public" default:"./public" description:"public data location"`
+			Public  string `long:"public" env:"PUBLIC" default:"./public" description:"public data location"`
 			TMPL    string `long:"tmpl" default:"./tmpl" description:"tmpl dir location"`
 		} `group:"Directory Locations" namespace:"dir" env-namespace:"DIR"`
 	}{}
@@ -82,7 +82,7 @@ func main() {
 	case ActionRun:
 		app.Log().Logf("[INFO] selected action: run")
 
-		srv := web.New(opts.Dir.Public)
+		srv := web.New(app.Log(), opts.Dir.Public)
 		if err := srv.Run(opts.Server.Port); err != nil {
 			app.Log().Logf("[ERROR] start web server err: %s", err)
 		}

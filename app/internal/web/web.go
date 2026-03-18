@@ -4,14 +4,17 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+
+	"github.com/go-pkgz/lgr"
 )
 
-func New(contentDir string) *Server {
-	return &Server{contentDir: contentDir}
+func New(log lgr.L, contentDir string) *Server {
+	return &Server{log: log, contentDir: contentDir}
 }
 
 type Server struct {
 	contentDir string
+	log        lgr.L
 }
 
 func (s *Server) Run(port int) error {
@@ -26,7 +29,9 @@ func (s *Server) Run(port int) error {
 
 func (s *Server) handler() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		lgr.Default().Logf("[INFO] url path: %s", r.URL.Path)
 		path := s.contentDir + r.URL.Path
+		lgr.Default().Logf("[DEBUG] file path: %s", path)
 
 		fi, err := os.Stat(path)
 		if err != nil {

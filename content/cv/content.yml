@@ -1,0 +1,35 @@
+tmpl: page-cv
+title: CV
+cv:
+    - title: "Образование"
+      items:
+        - title: "мгхпа строганова"
+          year: 2020
+          description: "искусство графики, Москва"
+        - title: "Художественное училище"
+          year: 2014
+          description: "кафедра живописи, Иркутск"
+
+    - title: "Групповые проекты"
+      items:
+        - title: "победить время"
+          year: 2025
+          description: "Санкт-петербург"
+        - title: "moi aussi art gallary"
+          year: 2020
+          description: "Венеция, Италия"
+        - title: "Архитектура неопределенного"
+          year: 2020
+          description: "лофт-пространство Spase-U, Москва"
+
+    - title: "Арт-ярмарки"
+      items:
+        - title: "Ярмарка графики «Контур»"
+          year: 2023
+          description: "Нижний Новгород"
+        - title: "Арт-ярмарка 3.0"
+          year: 2023
+          description: "Галерее А3, Москва"
+        - title: "Фестиваль «Вкус бумаги»"
+          year: 2021
+          description: "Москва"

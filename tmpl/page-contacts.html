@@ -1,0 +1,34 @@
+{{define "page-contacts"}}
+<!doctype html>
+<html lang="ru">
+    <head>
+        {{template "part-head"}}
+        <title>Контакты — портфолио художника</title>
+        <link rel="stylesheet" href="/css/series.css" />
+        <link rel="stylesheet" href="/css/contacts.css" />
+    </head>
+    <body>
+        {{template "part-header-page"}}
+        <main class="contacts">
+            <h1 class="contacts__title">Контакты</h1>
+
+            <div class="contacts__content">
+                <div class="contacts__info">
+                    <p class="contacts__text">Для связи и сотрудничества:</p>
+
+                    {{ range $idx, $sec := .Contacts }}
+                    <div class="contacts__item">
+                        <span class="contacts__label">{{.Title}}</span>
+                        <a class="contacts__value" href="{{.Link}}" {{.Custom}}
+                            >{{.Value}}</a
+                        >
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </main>
+
+        <script src="/js/theme.js"></script>
+    </body>
+</html>
+{{end}}

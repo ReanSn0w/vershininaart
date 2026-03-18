@@ -1,0 +1,46 @@
+{{define "page-series"}}
+<!doctype html>
+<html lang="ru">
+    <head>
+
+        {{template "part-head" .}}
+        <title>{{.Title}} — портфолио художника</title>
+        <link rel="stylesheet" href="/css/series.css" />
+    </head>
+    <body>
+        {{template "part-header-page"}} {{if .IsSingleWork}}
+        <main class="series">
+            <h1 class="series__title">{{.Title}}</h1>
+
+            {{template "part-series-one" .FirstWork}}
+        </main>
+        {{else}}
+        <main class="series">
+            <h1 class="series__title">{{.Title}}</h1>
+
+            {{template "part-series-many" .FirstWork}}
+        </main>
+        {{end}}
+
+        <script src="/js/theme.js"></script>
+        <script src="/js/slider.js"></script>
+        <script>
+            const works = [
+              {{range .Works}}
+                {
+                    image: "{{.Image.MaxQ}}",
+                    alt: "{{.Image.Alt}}",
+                    title: "{{.Title}}",
+                    year: "{{.Year}}",
+                    technique: "{{.Technique}}",
+                    size: "{{.Size}}",
+                    sheet: "{{.Sheet}}",
+                },
+              {{end}}
+            ];
+
+            initSlider();
+        </script>
+    </body>
+</html>
+{{end}}

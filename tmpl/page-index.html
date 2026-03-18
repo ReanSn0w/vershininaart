@@ -1,0 +1,50 @@
+{{define "page-index"}}
+<!doctype html>
+<html lang="ru">
+    <head>
+        {{ template "part-head" }}
+        <title>Anna Vershinina — Графика и печатные техники</title>
+        <link rel="stylesheet" href="/css/style.css" />
+    </head>
+    <body>
+        {{ template "part-header-index" }}
+
+        <main class="page">
+            {{range .Index}}
+            <section class="slide" id="{{.Tag}}">
+                <h1 class="slide__title">{{.Title}}</h1>
+
+                <section class="slide__gallery" aria-label="Работы серии">
+                    {{ range $idx, $item := .Sub }}
+                    <a class="card {{$item.Card.CustomClass}}" href="{{$item.PlainPath}}">
+                        <figure class="card__media">
+                            <img
+                                src="{{(index $item.Works 0).Image.LowQ}}"
+                                alt="{{(index $item.Works 0).Image.Alt}}"
+                            />
+                        </figure>
+                        <div class="card__meta">
+                            <span class="card__index">{{ add $idx 1 }}</span>
+                            <div class="card__info">
+                                <h2 class="card__title">{{$item.Title}}</h2>
+                                <p class="card__technique">
+                                    {{(index $item.Works 0).Technique}}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                    {{end}}
+                </section>
+            </section>
+            {{end}}
+        </main>
+
+        <button class="back-to-top" type="button" aria-label="Вернуться наверх">
+            <img src="/img/btn_Up.svg" alt="" />
+        </button>
+
+        <script src="/js/theme.js"></script>
+        <script src="/js/main.js"></script>
+    </body>
+</html>
+{{end}}

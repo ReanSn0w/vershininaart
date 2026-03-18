@@ -1,0 +1,9 @@
+tmpl: page-index
+title: Анна Вершинина — Графика и печатные техники
+index:
+  - tag: graphic-print
+    title: Графика / Печатные техники
+  - tag: paintings
+    title: Живопись
+  - tag: sculpture
+    title: Скульптура

@@ -24,10 +24,6 @@ var (
 			Port int `long:"port" env:"PORT" default:"8080" description:"server port"`
 		} `group:"HTTP Server" namespace:"server" env-namespace:"SERVER"`
 
-		Image struct {
-			ThumbWidth int `long:"thumb" default:"400" description:"thumb max width"`
-		} `group:"Image Settings" namespace:"image"`
-
 		Dir struct {
 			Content string `long:"content" default:"./content" description:"content data location"`
 			Static  string `long:"static" default:"./static" description:"static content location"`
@@ -68,7 +64,7 @@ func main() {
 			os.Exit(2)
 		}
 
-		err = build.PrepareImages(pages, opts.Dir.Public, opts.Image.ThumbWidth)
+		err = build.PrepareImages(pages, opts.Dir.Public)
 		if err != nil {
 			app.Log().Logf("[ERROR] build images err: %w", err)
 			os.Exit(2)

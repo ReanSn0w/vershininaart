@@ -2,16 +2,14 @@
 <!doctype html>
 <html lang="ru">
     <head>
-        {{template "part-head"}}
-        <title>CV — портфолио художника</title>
-        <link rel="stylesheet" href="/css/series.css" />
-        <link rel="stylesheet" href="/css/cv.css" />
+        {{template "part-head" .}}
+        <link rel="stylesheet" href="/css/page.css" />
     </head>
     <body>
         {{template "part-header-page"}}
 
-        <main class="cv">
-            <h1 class="cv__title">{{ .Title }}</h1>
+        <main class="page">
+            <h1 class="page__title">{{ .Title }}</h1>
             <div class="cv__content">
                 {{ range $idx, $sec := .CV }}
                 <section class="cv__section">

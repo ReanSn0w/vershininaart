@@ -2,6 +2,8 @@ package build
 
 import (
 	"fmt"
+	"image"
+	"image/jpeg"
 	"os"
 	"path/filepath"
 	"strings"
@@ -10,10 +12,10 @@ import (
 	"github.com/disintegration/imaging"
 )
 
-func PrepareImages(pages []utils.Page, publicPath string, maxWidthForLowQ int) (err error) {
+func PrepareImages(pages []utils.Page, publicPath string) (err error) {
 	for i, page := range pages {
 		if page.Bio.Image.Src != "" {
-			err = prepareSingleImage(&pages[i].Bio.Image, publicPath, maxWidthForLowQ)
+			err = prepareSingleImage(&pages[i].Bio.Image, publicPath)
 			if err != nil {
 				return fmt.Errorf("prepare image %s err: %s", page.Bio.Image.Src, err)
 			}
@@ -21,7 +23,7 @@ func PrepareImages(pages []utils.Page, publicPath string, maxWidthForLowQ int) (
 
 		for wi := range page.Works {
 			image := &pages[i].Works[wi].Image
-			err = prepareSingleImage(image, publicPath, maxWidthForLowQ)
+			err = prepareSingleImage(image, publicPath)
 			if err != nil {
 				return fmt.Errorf("prepare image %s err: %s", page.Works[wi].Image.Src, err)
 			}
@@ -31,7 +33,7 @@ func PrepareImages(pages []utils.Page, publicPath string, maxWidthForLowQ int) (
 	return
 }
 
-func prepareSingleImage(img *utils.Image, publicPath string, maxWidthForLowQ int) error {
+func prepareSingleImage(img *utils.Image, publicPath string) error {
 	// Получаем имя файла без расширения
 	fileName := filepath.Base(img.Src)
 	fileNameWithoutExt := strings.TrimSuffix(fileName, filepath.Ext(fileName))
@@ -49,21 +51,27 @@ func prepareSingleImage(img *utils.Image, publicPath string, maxWidthForLowQ int
 
 	// Сохраняем большое изображение в JPEG
 	largePath := fmt.Sprintf(publicPath+"/pic/%s.jpg", fileNameWithoutExt)
-	if err := imaging.Save(srcImage, largePath); err != nil {
+	if err := saveWithQuality(largePath, srcImage, 95); err != nil {
 		return fmt.Errorf("failed to save large image: %w", err)
 	}
 
-	// Создаём thumbnail с изменением размера по ширине
-	// высота пересчитывается автоматически (0 = auto)
-	thumbnail := imaging.Resize(srcImage, maxWidthForLowQ, 0, imaging.Lanczos)
-
 	// Сохраняем thumbnail
 	thumbPath := fmt.Sprintf(publicPath+"/pic/%s_thumb.jpg", fileNameWithoutExt)
-	if err := imaging.Save(thumbnail, thumbPath); err != nil {
+	if err := saveWithQuality(thumbPath, srcImage, 60); err != nil {
 		return fmt.Errorf("failed to save thumbnail: %w", err)
 	}
 
 	img.MaxQ = fmt.Sprintf("/pic/%s.jpg", fileNameWithoutExt)
 	img.LowQ = fmt.Sprintf("/pic/%s_thumb.jpg", fileNameWithoutExt)
 	return nil
+}
+
+func saveWithQuality(path string, img image.Image, quality int) error {
+	f, err := os.Create(path)
+	if err != nil {
+		return fmt.Errorf("failed to create file: %w", err)
+	}
+	defer f.Close()
+
+	return jpeg.Encode(f, img, &jpeg.Options{Quality: quality})
 }

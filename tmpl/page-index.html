@@ -2,9 +2,8 @@
 <!doctype html>
 <html lang="ru">
     <head>
-        {{ template "part-head" }}
-        <title>Anna Vershinina — Графика и печатные техники</title>
-        <link rel="stylesheet" href="/css/style.css" />
+        {{ template "part-head" .}}
+        <link rel="stylesheet" href="/css/index.css" />
     </head>
     <body>
         {{ template "part-header-index" }}
@@ -16,7 +15,10 @@
 
                 <section class="slide__gallery" aria-label="Работы серии">
                     {{ range $idx, $item := .Sub }}
-                    <a class="card {{$item.Card.CustomClass}}" href="{{$item.PlainPath}}">
+                    <a
+                        class="card {{$item.Card.CustomClass}}"
+                        href="{{$item.PlainPath}}"
+                    >
                         <figure class="card__media">
                             <img
                                 src="{{(index $item.Works 0).Image.LowQ}}"

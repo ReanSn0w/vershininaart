@@ -1,9 +1,0 @@
-tmpl: page-index
-title: Главная
-index:
-  - tag: graphic-print
-    title: Графика / Печатные техники
-  - tag: paintings
-    title: Живопись
-  - tag: sculpture
-    title: Скульптура

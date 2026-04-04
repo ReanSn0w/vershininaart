@@ -1,0 +1,43 @@
+---
+title: Серия Город
+collection: paintings
+description: Art series
+draft: false
+weight: 8
+works:
+  - title: Ольхон
+    image:
+      src: olhon-work-1.png
+      alt: Живописная работа Ольхон — лист 1
+    year: 2020
+    technique: Темпера
+    size: 120 × 80
+    sheet: 1/4
+  - title: Ольхон
+    image:
+      src: olhon-work-2.png
+      alt: Живописная работа Ольхон — лист 2
+    year: 2020
+    technique: Темпера
+    size: 120 × 80
+    sheet: 2/4
+  - title: Ольхон
+    image:
+      src: olhon-work-3.png
+      alt: Живописная работа Ольхон — лист 3
+    year: 2020
+    technique: Темпера
+    size: 120 × 80
+    sheet: 3/4
+  - title: Ольхон
+    image:
+      src: olhon-work-4.png
+      alt: Живописная работа Ольхон — лист 4
+    year: 2020
+    technique: Темпера
+    size: 120 × 80
+    sheet: 4/4
+---
+
+# Серия Город
+

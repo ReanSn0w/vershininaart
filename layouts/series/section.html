@@ -1,0 +1,159 @@
+{{ define "main" }}
+{{ if .Params.works }}
+<!-- Это индивидуальная серия -->
+<main class="series">
+    <h1 class="series__title">{{ .Title }}</h1>
+    
+    {{ $works := .Params.works }}
+    <!-- Извлекаем имя папки series из пути -->
+    {{ $parts := split .RelPermalink "/" }}
+    {{ $seriesName := "" }}
+    {{ range $i, $part := $parts }}
+        {{ if eq $part "series" }}
+            {{ $seriesName = index $parts (add $i 1) }}
+        {{ end }}
+    {{ end }}
+    
+    {{ if eq (len $works) 1 }}
+        <!-- Одна работа -->
+        {{ $work := index $works 0 }}
+        <div class="series__media">
+            <div class="series__stage">
+                <img 
+                    class="artwork" 
+                    src="/series/{{ $seriesName }}/{{ $work.image.src }}" 
+                    alt="{{ $work.image.alt }}"
+                />
+            </div>
+            
+            <dl class="series__info">
+                <div class="info__name">
+                    <dd data-meta="title">{{ $work.title }}</dd>
+                </div>
+                <div class="info__row">
+                    <dt>{{ i18n "yearCreated" }}:</dt>
+                    <dd data-meta="year">{{ $work.year }}</dd>
+                </div>
+                <div class="info__row">
+                    <dt>{{ i18n "technique" }}:</dt>
+                    <dd data-meta="technique">{{ $work.technique }}</dd>
+                </div>
+                <div class="info__row">
+                    <dt>{{ i18n "size" }}:</dt>
+                    <dd data-meta="size">{{ $work.size }}</dd>
+                </div>
+                {{ if $work.sheet }}
+                <div class="info__row">
+                    <dt>{{ i18n "sheet" }}:</dt>
+                    <dd data-meta="sheet">{{ $work.sheet }}</dd>
+                </div>
+                {{ end }}
+            </dl>
+        </div>
+    {{ else }}
+        <!-- Множество работ с слайдером -->
+        <div class="series__media">
+            <div class="series__stage">
+                <button class="nav nav--prev" type="button" aria-label="{{ i18n "prevWork" }}" data-slider-prev>
+                    <img src="/img/btn_Previous.svg" alt="" />
+                </button>
+                
+                <img 
+                    class="artwork" 
+                    src="/series/{{ $seriesName }}/{{ (index $works 0).image.src }}" 
+                    alt="{{ (index $works 0).image.alt }}"
+                    data-artwork-image
+                />
+                
+                <button class="nav nav--next" type="button" aria-label="{{ i18n "nextWork" }}" data-slider-next>
+                    <img src="/img/btn_Next.svg" alt="" />
+                </button>
+            </div>
+            
+            <div class="slider-dots" data-slider-dots></div>
+            
+            <dl class="series__info" data-info>
+                <div class="info__name">
+                    <dd data-meta="title">{{ (index $works 0).title }}</dd>
+                </div>
+                <div class="info__row">
+                    <dt>{{ i18n "yearCreated" }}:</dt>
+                    <dd data-meta="year">{{ (index $works 0).year }}</dd>
+                </div>
+                <div class="info__row">
+                    <dt>{{ i18n "technique" }}:</dt>
+                    <dd data-meta="technique">{{ (index $works 0).technique }}</dd>
+                </div>
+                <div class="info__row">
+                    <dt>{{ i18n "size" }}:</dt>
+                    <dd data-meta="size">{{ (index $works 0).size }}</dd>
+                </div>
+                {{ if (index $works 0).sheet }}
+                <div class="info__row">
+                    <dt>{{ i18n "sheet" }}:</dt>
+                    <dd data-meta="sheet">{{ (index $works 0).sheet }}</dd>
+                </div>
+                {{ end }}
+            </dl>
+        </div>
+    {{ end }}
+</main>
+
+<script>
+    {{ if ne (len $works) 1 }}
+    const works = [
+        {{ range $works }}
+        {
+            image: "/series/{{ $seriesName }}/{{ .image.src }}",
+            alt: "{{ .image.alt }}",
+            title: "{{ .title }}",
+            year: "{{ .year }}",
+            technique: "{{ .technique }}",
+            size: "{{ .size }}",
+            sheet: "{{ .sheet }}",
+        },
+        {{ end }}
+    ];
+    
+    initSlider();
+    {{ end }}
+</script>
+</main>
+{{ else }}
+<!-- Это список всех серий -->
+<main class="page">
+    <h1 class="page__title">{{ .Title }}</h1>
+    
+    <section class="slide__gallery" aria-label="Все серии">
+        {{ range sort .Pages "Weight" "asc" }}
+            {{ if .Params.works }}
+                {{ $firstWork := index .Params.works 0 }}
+                <!-- Извлекаем имя папки series из пути -->
+                {{ $parts := split .RelPermalink "/" }}
+                {{ $seriesName := "" }}
+                {{ range $i, $part := $parts }}
+                    {{ if eq $part "series" }}
+                        {{ $seriesName = index $parts (add $i 1) }}
+                    {{ end }}
+                {{ end }}
+                <a class="card" href="{{ .RelPermalink }}">
+                    <figure class="card__media">
+                        <img 
+                            src="/series/{{ $seriesName }}/{{ $firstWork.image.src }}" 
+                            alt="{{ $firstWork.image.alt }}"
+                            loading="lazy"
+                        />
+                    </figure>
+                    <div class="card__meta">
+                        <div class="card__info">
+                            <h2 class="card__title">{{ .Title }}</h2>
+                            <p class="card__technique">{{ $firstWork.technique }}</p>
+                        </div>
+                    </div>
+                </a>
+            {{ end }}
+        {{ end }}
+    </section>
+</main>
+{{ end }}
+{{ end }}

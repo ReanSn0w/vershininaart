@@ -1,0 +1,30 @@
+{{ define "main" }}
+<main class="page">
+    <h1 class="page__title">{{ .Title }}</h1>
+    
+    <div class="cv__content">
+        {{ range $idx, $sec := .Params.cv }}
+        <section class="cv__section">
+            <div class="cv__section-header">
+                <h2 class="cv__section-title">{{ $sec.title }}</h2>
+                <div class="cv__section-items">
+                    {{ range $i, $it := $sec.items }}
+                    <div class="cv__item">
+                        <div class="cv__item-header">
+                            <span class="cv__item-title">
+                                {{ $it.title }}
+                            </span>
+                            <span class="cv__item-year">{{ $it.year }}</span>
+                        </div>
+                        <span class="cv__item-description">
+                            {{ $it.description }}
+                        </span>
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+        </section>
+        {{ end }}
+    </div>
+</main>
+{{ end }}

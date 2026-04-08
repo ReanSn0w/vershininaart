@@ -1,0 +1,18 @@
+{{ define "main" }}
+<main class="page">
+    <h1 class="page__title">{{ .Title }}</h1>
+    
+    <div class="contacts__content">
+        <div class="contacts__info">
+            <p class="contacts__text">{{ i18n "contactsIntro" }}</p>
+            
+            {{ range $idx, $item := .Params.contacts }}
+            <div class="contacts__item">
+                <span class="contacts__label">{{ $item.title }}</span>
+                <a class="contacts__value" href="{{ $item.link }}" {{ $item.custom | safeHTMLAttr }}>{{ $item.value }}</a>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+</main>
+{{ end }}

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="{{ .Site.Language.Lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}Портфолио художника Анны Вершининой | Portfolio of artist Anna Vershinina{{ end }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="/img/favicon.png" type="image/png" sizes="any">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <title>{{ .Title }} | {{ .Site.Title }}</title>
+    <link rel="stylesheet" href="{{ if .IsHome }}/css/index.css{{else}}/css/page.css{{ end }}">
+</head>
+<body>
+    {{ partial "header.html" . }}
+    {{ block "main" . }}{{ end }}
+    {{ partial "footer.html" . }}
+    {{ if .IsHome }}
+    <button class="back-to-top" type="button" aria-label="{{ i18n "backToTop" }}">
+        <img src="/img/btn_Up.svg" alt="" />
+    </button>
+    {{ end }}
+    <script src="/js/theme.js"></script>
+    <script src="/js/slider.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+{{ if .IsHome }}
+    <!-- Header для главной страницы -->
+    <header class="site-header">
+        <div class="site-header__brand">{{ i18n "brandName" }}</div>
+        
+        <nav class="site-nav" id="primary-navigation" aria-label="{{ i18n "mainNav" }}">
+            {{ $currentLang := .Lang }}
+            {{ $site := .Site }}
+            
+            <!-- Коллекции с якорями -->
+            {{ range .Params.collections }}
+                <a class="site-nav__link" href="#{{ .id }}">{{ .title }}</a>
+            {{ end }}
+            
+            <!-- Ссылки на основные страницы -->
+            {{ $navSections := slice "about" "cv" "contacts" }}
+            {{ range $navSections }}
+                {{ $section := $site.GetPage (printf "/%s" .) }}
+                {{ if $section }}
+                    {{ if eq $currentLang "ru" }}
+                        <a class="site-nav__link" href="{{ $section.RelPermalink }}">{{ $section.Title }}</a>
+                    {{ else if eq $currentLang "en" }}
+                        <a class="site-nav__link" href="{{ $section.RelPermalink }}">{{ $section.Title }}</a>
+                    {{ end }}
+                {{ end }}
+            {{ end }}
+        </nav>
+        
+        <button class="site-nav__toggle" type="button" aria-label="{{ i18n "toggleMenu" }}" aria-controls="primary-navigation" aria-expanded="false">
+            <img src="/img/btn_Burger.svg" alt="" />
+        </button>
+        
+        <button class="theme-toggle" type="button" aria-label="{{ i18n "toggleTheme" }}">
+            <img src="/img/btn_light.svg" alt="" />
+        </button>
+    </header>
+{{ else }}
+    <!-- Header для остальных страниц -->
+    <header class="site-header">
+        <div class="site-header__top">
+            <div class="site-header__brand">
+                {{ $homeURL := "/" }}
+                {{ $currentLang := .Lang }}
+                {{ $defaultLang := .Site.Params.defaultContentLanguage }}
+                
+                <!-- Если текущий язык не языком по умолчанию, добавляем префикс языка -->
+                {{ if ne $currentLang $defaultLang }}
+                    {{ $homeURL = (printf "/%s/" $currentLang) }}
+                {{ end }}
+                
+                <a class="site-header__back" href="{{ $homeURL }}" aria-label="{{ i18n "back" }}">
+                    <span class="site-header__back-icon" aria-hidden="true">
+                        <img src="/img/btn_Back.svg" alt="" />
+                    </span>
+                    <span class="site-header__back-label">{{ i18n "back" }}</span>
+                </a>
+            </div>
+            <button class="theme-toggle" type="button" aria-label="{{ i18n "toggleTheme" }}">
+                <img src="/img/btn_light.svg" alt="" />
+            </button>
+        </div>
+    </header>
+{{ end }}

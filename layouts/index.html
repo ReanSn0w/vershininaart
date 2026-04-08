@@ -1,0 +1,46 @@
+{{ define "main" }}
+<main class="page">
+    {{ $lang := .Lang }} {{ $site := .Site }}
+
+    <!-- Отображение всех коллекций из параметров главной страницы -->
+    {{ range .Params.collections }} {{ $collectionId := .id }} {{
+    $collectionTitle := .title }}
+
+    <section class="slide" id="{{ $collectionId }}">
+        <h1 class="slide__title">{{ $collectionTitle }}</h1>
+
+        <section class="slide__gallery" aria-label="Работы серии">
+            {{ $count := 0 }} 
+            {{ $pages := where $site.Pages "Section" "series" }}
+            {{ range sort $pages "Weight" "asc" }}
+            {{ if eq .Lang $lang }} {{ $params := .Params }} {{ if eq (index
+            $params "collection") $collectionId }} {{ $count = add $count 1 }}
+            {{ $firstWork := index $params.works 0 }}
+            <!-- Извлекаем имя папки series из пути -->
+            {{ $parts := split .RelPermalink "/" }} {{ $seriesName := "" }} {{
+            range $i, $part := $parts }} {{ if eq $part "series" }} {{
+            $seriesName = index $parts (add $i 1) }} {{ end }} {{ end }}
+            <a class="card {{ $params.cardclass }}" href="{{ .RelPermalink }}">
+                <figure class="card__media">
+                    <img
+                        src="/series/{{ $seriesName }}/{{ $firstWork.image.src }}"
+                        alt="{{ $firstWork.image.alt }}"
+                        loading="lazy"
+                    />
+                </figure>
+                <div class="card__meta">
+                    <span class="card__index">{{ $count }}</span>
+                    <div class="card__info">
+                        <h2 class="card__title">{{ .Title }}</h2>
+                        <p class="card__technique">
+                            {{ $firstWork.technique }}
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {{ end }} {{ end }} {{ end }}
+        </section>
+    </section>
+    {{ end }}
+</main>
+{{ end }}

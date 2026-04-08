@@ -1,0 +1,72 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Hugo: Start Dev Server",
+      "type": "shell",
+      "command": "hugo",
+      "args": ["server", "--port", "1313", "--bind", "127.0.0.1"],
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^.*$",
+          "file": 1,
+          "location": 2,
+          "message": 3
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^.*Start building.*",
+          "endsPattern": "^.*Watching for changes.*"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "focus": false,
+        "showReuseMessage": true
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Hugo: Build for Production",
+      "type": "shell",
+      "command": "hugo",
+      "args": ["build"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "group": "build"
+    },
+    {
+      "label": "Hugo: Clean and Build",
+      "type": "shell",
+      "command": "sh",
+      "args": ["-c", "rm -rf public && hugo build"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "group": "build"
+    },
+    {
+      "label": "Hugo: Open Preview",
+      "type": "shell",
+      "command": "open",
+      "args": ["http://localhost:1313"],
+      "windows": {
+        "command": "start"
+      },
+      "linux": {
+        "command": "xdg-open"
+      },
+      "presentation": {
+        "reveal": "silent"
+      }
+    }
+  ]
+}

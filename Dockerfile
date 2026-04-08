@@ -1,39 +1,34 @@
-FROM golang:1.26-alpine AS application
+FROM klakegg/hugo:ext-alpine AS builder
 
-RUN \
-    echo "Prepearing Environment." && \
-    apk --no-cache add ca-certificates && \
-    go install github.com/zxmfke/swagger2openapi3/cmd/swag2op@latest
+# рабочая директория внутри контейнера
+WORKDIR /src
 
-ARG REF=bundle
-ADD . /bundle
-WORKDIR /bundle
+# копируем весь проект (включая content, layouts, themes и т.д.)
+COPY . .
 
-RUN apk --no-cache add tzdata ca-certificates
+# аргументы (опционально) для управления сборкой
+ARG HUGO_ENV=production
+ARG HUGO_BASEURL=/
 
-WORKDIR /bundle/app
-RUN \
-    version=${REF} && \
-    echo "Building application. Version: ${version}" && \
-    go build -ldflags "-X main.revision=${version}" -o /srv/app ./main.go
+ENV HUGO_ENV=${HUGO_ENV}
+ENV HUGO_BASEURL=${HUGO_BASEURL}
 
-WORKDIR /bundle
-RUN \
-  echo "Building static files..." && \
-  /srv/app --build \
-  --dir.tmpl=./tmpl \
-  --dir.static=./static \
-  --dir.content=./content \
-  --dir.public=/srv/public
+# запускаем сборку; результат будет в /src/public
+RUN hugo --minify
 
-FROM scratch
+# Stage 2: nginx serves the generated static files
+FROM nginx:alpine
 
-COPY --from=application /usr/share/zoneinfo /usr/share/zoneinfo
-COPY --from=application /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=application /srv /srv
+# (необязательно) удалить дефолтный контент nginx
+RUN rm -rf /usr/share/nginx/html/*
 
-ENV TZ=Europe/Moscow
+# копируем сгенерированную статическую файловую систему из builder
+COPY --from=builder /src/public /usr/share/nginx/html
+
+# (опционально) копируем кастомный конфиг nginx, если он есть в проекте
+# например, если у вас есть nginx/default.conf в корне проекта:
+# COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
-WORKDIR /srv
-ENTRYPOINT ["./app", "--run", "--server.port=80", "--dir.public=./public"]
+
+# по умолчанию nginx уже запускается корректной CMD в базовом образе

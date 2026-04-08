@@ -1,4 +1,27 @@
-.zed
+# Hugo build output
+public/
+resources/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE (but NOT .vscode config for this project)
+.idea/
+.zed/
+
+# Note: .vscode/ is included in the repo for project setup
+# .vscode/ entry removed to allow sharing configuration
+
+# Node (if using npm)
+node_modules/
+package-lock.json
+
+# Build cache
+.hugo_build.lock
+
 public
 .DS_Store
 **__debug_bin*
+docker-compose.yml
+

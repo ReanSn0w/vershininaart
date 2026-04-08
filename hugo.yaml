@@ -1,0 +1,70 @@
+baseURL: "https://vershininaart.ru/"
+languageCode: "ru"
+title: "Vershinina Art"
+locale: "ru-RU"
+
+# Default content language
+defaultContentLanguage: ru
+defaultContentLanguageInSubdir: false
+
+# Languages configuration
+languages:
+  ru:
+    languageName: "Русский"
+    weight: 1
+    title: "Анна Вершинина - портфолио художника"
+    params:
+      description: "Портфолио художницы Анны Вершининой"
+
+  en:
+    languageName: "English"
+    weight: 2
+    title: "Anna Vershinina - artist portfolio"
+    params:
+      description: "Portfolio of artist Anna Vershinina"
+
+params:
+  defaultContentLanguage: "ru"
+
+# Minification settings
+minify:
+  minifyOutput: true
+
+# Image processing
+imaging:
+  anchor: "smart"
+  bgColor: "#ffffff"
+  hint: "photo"
+  quality: 85
+  resampleFilter: "box"
+  webp:
+    method: 6
+
+# Taxonomies
+taxonomies:
+  collection: collections
+
+# Sitemap
+sitemap:
+  changefreq: monthly
+  filename: sitemap.xml
+  priority: -1
+
+# Other options
+author:
+  name: "Anna Vershinina"
+
+privacy:
+  vimeo:
+    disabled: false
+  youtube:
+    privacyEnhanced: true
+
+# Markup
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  tableOfContents:
+    startLevel: 2
+    endLevel: 3

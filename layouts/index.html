@@ -20,13 +20,23 @@
             {{ $parts := split .RelPermalink "/" }} {{ $seriesName := "" }} {{
             range $i, $part := $parts }} {{ if eq $part "series" }} {{
             $seriesName = index $parts (add $i 1) }} {{ end }} {{ end }}
+            {{ $imgRes := .Resources.GetMatch $firstWork.image.src }}
             <a class="card {{ $params.cardclass }}" href="{{ .RelPermalink }}">
                 <figure class="card__media">
-                    <img
-                        src="/series/{{ $seriesName }}/{{ $firstWork.image.src }}"
-                        alt="{{ $firstWork.image.alt }}"
-                        loading="lazy"
-                    />
+                    {{ if $imgRes }}
+                        {{ $thumb := $imgRes.Resize "800x webp q80" }}
+                        <img
+                            src="{{ $thumb.RelPermalink }}"
+                            alt="{{ $firstWork.image.alt }}"
+                            loading="lazy"
+                        />
+                    {{ else }}
+                        <img
+                            src="/series/{{ $seriesName }}/{{ $firstWork.image.src }}"
+                            alt="{{ $firstWork.image.alt }}"
+                            loading="lazy"
+                        />
+                    {{ end }}
                 </figure>
                 <div class="card__meta">
                     <span class="card__index">{{ $count }}</span>

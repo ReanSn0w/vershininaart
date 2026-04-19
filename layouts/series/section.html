@@ -19,11 +19,21 @@
         {{ $work := index $works 0 }}
         <div class="series__media">
             <div class="series__stage">
-                <img
-                    class="artwork"
-                    src="/series/{{ $seriesName }}/{{ $work.image.src }}"
-                    alt="{{ $work.image.alt }}"
-                />
+                {{ $imgRes := $.Resources.GetMatch $work.image.src }}
+                {{ if $imgRes }}
+                    {{ $full := $imgRes.Resize "1600x webp q88" }}
+                    <img
+                        class="artwork"
+                        src="{{ $full.RelPermalink }}"
+                        alt="{{ $work.image.alt }}"
+                    />
+                {{ else }}
+                    <img
+                        class="artwork"
+                        src="/series/{{ $seriesName }}/{{ $work.image.src }}"
+                        alt="{{ $work.image.alt }}"
+                    />
+                {{ end }}
             </div>
 
             <dl class="series__info">
@@ -58,12 +68,24 @@
                     <img src="/img/btn_Previous.svg" alt="" />
                 </button>
 
-                <img
-                    class="artwork"
-                    src="/series/{{ $seriesName }}/{{ (index $works 0).image.src }}"
-                    alt="{{ (index $works 0).image.alt }}"
-                    data-artwork-image
-                />
+                {{ $firstWork := index $works 0 }}
+                {{ $firstImgRes := $.Resources.GetMatch $firstWork.image.src }}
+                {{ if $firstImgRes }}
+                    {{ $firstFull := $firstImgRes.Resize "1600x webp q88" }}
+                    <img
+                        class="artwork"
+                        src="{{ $firstFull.RelPermalink }}"
+                        alt="{{ $firstWork.image.alt }}"
+                        data-artwork-image
+                    />
+                {{ else }}
+                    <img
+                        class="artwork"
+                        src="/series/{{ $seriesName }}/{{ $firstWork.image.src }}"
+                        alt="{{ $firstWork.image.alt }}"
+                        data-artwork-image
+                    />
+                {{ end }}
 
                 <button class="nav nav--next" type="button" aria-label="{{ i18n "nextWork" }}" data-slider-next>
                     <img src="/img/btn_Next.svg" alt="" />
@@ -74,24 +96,24 @@
 
             <dl class="series__info" data-info>
                 <div class="info__name">
-                    <dd data-meta="title">{{ (index $works 0).title }}</dd>
+                    <dd data-meta="title">{{ $firstWork.title }}</dd>
                 </div>
                 <div class="info__row">
                     <dt>{{ i18n "yearCreated" }}:</dt>
-                    <dd data-meta="year">{{ (index $works 0).year }}</dd>
+                    <dd data-meta="year">{{ $firstWork.year }}</dd>
                 </div>
                 <div class="info__row">
                     <dt>{{ i18n "technique" }}:</dt>
-                    <dd data-meta="technique">{{ (index $works 0).technique }}</dd>
+                    <dd data-meta="technique">{{ $firstWork.technique }}</dd>
                 </div>
                 <div class="info__row">
                     <dt>{{ i18n "size" }}:</dt>
-                    <dd data-meta="size">{{ (index $works 0).size }}</dd>
+                    <dd data-meta="size">{{ $firstWork.size }}</dd>
                 </div>
-                {{ if (index $works 0).sheet }}
+                {{ if $firstWork.sheet }}
                 <div class="info__row">
                     <dt>{{ i18n "sheet" }}:</dt>
-                    <dd data-meta="sheet">{{ (index $works 0).sheet }}</dd>
+                    <dd data-meta="sheet">{{ $firstWork.sheet }}</dd>
                 </div>
                 {{ end }}
             </dl>
@@ -104,8 +126,11 @@
     {{ if ne (len $works) 1 }}
     const works = [
         {{ range $works }}
+        {{ $imgRes := $.Resources.GetMatch .image.src }}
+        {{ $imgURL := printf "/series/%s/%s" $seriesName .image.src }}
+        {{ if $imgRes }}{{ $processed := $imgRes.Resize "1600x webp q88" }}{{ $imgURL = $processed.RelPermalink }}{{ end }}
         {
-            image: "/series/{{ $seriesName }}/{{ .image.src }}",
+            image: "{{ $imgURL }}",
             alt: "{{ .image.alt }}",
             title: "{{ .title }}",
             year: "{{ .year }}",
@@ -139,11 +164,21 @@
                 {{ end }}
                 <a class="card" href="{{ .RelPermalink }}">
                     <figure class="card__media">
-                        <img
-                            src="/series/{{ $seriesName }}/{{ $firstWork.image.src }}"
-                            alt="{{ $firstWork.image.alt }}"
-                            loading="lazy"
-                        />
+                        {{ $imgRes := .Resources.GetMatch $firstWork.image.src }}
+                        {{ if $imgRes }}
+                            {{ $thumb := $imgRes.Resize "800x webp q80" }}
+                            <img
+                                src="{{ $thumb.RelPermalink }}"
+                                alt="{{ $firstWork.image.alt }}"
+                                loading="lazy"
+                            />
+                        {{ else }}
+                            <img
+                                src="/series/{{ $seriesName }}/{{ $firstWork.image.src }}"
+                                alt="{{ $firstWork.image.alt }}"
+                                loading="lazy"
+                            />
+                        {{ end }}
                     </figure>
                     <div class="card__meta">
                         <div class="card__info">

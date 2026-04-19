@@ -3,7 +3,7 @@
 <!-- Это индивидуальная серия -->
 <main class="series">
     <h1 class="series__title">{{ .Title }}</h1>
-    
+
     {{ $works := .Params.works }}
     <!-- Извлекаем имя папки series из пути -->
     {{ $parts := split .RelPermalink "/" }}
@@ -13,19 +13,19 @@
             {{ $seriesName = index $parts (add $i 1) }}
         {{ end }}
     {{ end }}
-    
+
     {{ if eq (len $works) 1 }}
         <!-- Одна работа -->
         {{ $work := index $works 0 }}
         <div class="series__media">
             <div class="series__stage">
-                <img 
-                    class="artwork" 
-                    src="/series/{{ $seriesName }}/{{ $work.image.src }}" 
+                <img
+                    class="artwork"
+                    src="/series/{{ $seriesName }}/{{ $work.image.src }}"
                     alt="{{ $work.image.alt }}"
                 />
             </div>
-            
+
             <dl class="series__info">
                 <div class="info__name">
                     <dd data-meta="title">{{ $work.title }}</dd>
@@ -57,21 +57,21 @@
                 <button class="nav nav--prev" type="button" aria-label="{{ i18n "prevWork" }}" data-slider-prev>
                     <img src="/img/btn_Previous.svg" alt="" />
                 </button>
-                
-                <img 
-                    class="artwork" 
-                    src="/series/{{ $seriesName }}/{{ (index $works 0).image.src }}" 
+
+                <img
+                    class="artwork"
+                    src="/series/{{ $seriesName }}/{{ (index $works 0).image.src }}"
                     alt="{{ (index $works 0).image.alt }}"
                     data-artwork-image
                 />
-                
+
                 <button class="nav nav--next" type="button" aria-label="{{ i18n "nextWork" }}" data-slider-next>
                     <img src="/img/btn_Next.svg" alt="" />
                 </button>
             </div>
-            
+
             <div class="slider-dots" data-slider-dots></div>
-            
+
             <dl class="series__info" data-info>
                 <div class="info__name">
                     <dd data-meta="title">{{ (index $works 0).title }}</dd>
@@ -99,6 +99,7 @@
     {{ end }}
 </main>
 
+<script src="/js/slider.js"></script>
 <script>
     {{ if ne (len $works) 1 }}
     const works = [
@@ -114,7 +115,7 @@
         },
         {{ end }}
     ];
-    
+
     initSlider();
     {{ end }}
 </script>
@@ -123,7 +124,7 @@
 <!-- Это список всех серий -->
 <main class="page">
     <h1 class="page__title">{{ .Title }}</h1>
-    
+
     <section class="slide__gallery" aria-label="Все серии">
         {{ range sort .Pages "Weight" "asc" }}
             {{ if .Params.works }}
@@ -138,8 +139,8 @@
                 {{ end }}
                 <a class="card" href="{{ .RelPermalink }}">
                     <figure class="card__media">
-                        <img 
-                            src="/series/{{ $seriesName }}/{{ $firstWork.image.src }}" 
+                        <img
+                            src="/series/{{ $seriesName }}/{{ $firstWork.image.src }}"
                             alt="{{ $firstWork.image.alt }}"
                             loading="lazy"
                         />

@@ -162,11 +162,12 @@
                         {{ $seriesName = index $parts (add $i 1) }}
                     {{ end }}
                 {{ end }}
-                <a class="card" href="{{ .RelPermalink }}">
+                <a class="card{{ .Params.cardclass }}" href="{{ .RelPermalink }}">
                     <figure class="card__media">
                         {{ $imgRes := .Resources.GetMatch $firstWork.image.src }}
                         {{ if $imgRes }}
-                            {{ $thumb := $imgRes.Resize "800x webp q80" }}
+                            {{ $thumbSpec := partial "card-thumb-spec.html" (dict "cardclass" .Params.cardclass) }}
+                            {{ $thumb := $imgRes.Resize $thumbSpec }}
                             <img
                                 src="{{ $thumb.RelPermalink }}"
                                 alt="{{ $firstWork.image.alt }}"

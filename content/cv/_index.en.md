@@ -19,6 +19,11 @@ description = "Department of Painting, Irkutsk"
 [[cv]]
 title = "Group Projects"
 [[cv.items]]
+title = "After Love"
+year = 2026
+description = "Moscow"
+
+[[cv.items]]
 title = "Conquer Time"
 year = 2025
 description = "Saint Petersburg"

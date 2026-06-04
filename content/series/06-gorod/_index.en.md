@@ -5,7 +5,7 @@ description: Art series
 draft: false
 weight: 6
 works:
-  - title: CITY SERIES SHEET 1
+  - title: Stairs
     image:
       src: gorod-work-1.png
       alt: Graphic work City Series — sheet 1
@@ -13,7 +13,7 @@ works:
     technique: Etching
     size: 20 × 29
     sheet: 1/2
-  - title: CITY SERIES SHEET 2
+  - title: Yard
     image:
       src: gorod-work-2.png
       alt: Graphic work City Series — sheet 2

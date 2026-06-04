@@ -5,7 +5,7 @@ description: Art series
 draft: false
 weight: 4
 works:
-  - title: ЗАБРОШЕННЫЕ КОРАБЛИ
+  - title: Переправа
     image:
       src: korabli-work-1.png
       alt: Графическая работа Заброшенные корабли — лист 1
@@ -13,7 +13,7 @@ works:
     technique: Графика
     size: 40 × 60
     sheet: 1/9
-  - title: ЗАБРОШЕННЫЕ КОРАБЛИ
+  - title: Сети
     image:
       src: korabli-work-2.png
       alt: Графическая работа Заброшенные корабли — лист 2
@@ -21,7 +21,7 @@ works:
     technique: Графика
     size: 40 × 60
     sheet: 2/9
-  - title: ЗАБРОШЕННЫЕ КОРАБЛИ
+  - title: Поле
     image:
       src: korabli-work-3.png
       alt: Графическая работа Заброшенные корабли — лист 3
@@ -29,7 +29,7 @@ works:
     technique: Графика
     size: 40 × 60
     sheet: 3/9
-  - title: ЗАБРОШЕННЫЕ КОРАБЛИ
+  - title: Лодка
     image:
       src: korabli-work-4.png
       alt: Графическая работа Заброшенные корабли — лист 4
@@ -37,7 +37,7 @@ works:
     technique: Графика
     size: 40 × 60
     sheet: 4/9
-  - title: ЗАБРОШЕННЫЕ КОРАБЛИ
+  - title: Остов корабля
     image:
       src: korabli-work-5.png
       alt: Графическая работа Заброшенные корабли — лист 5
@@ -45,7 +45,7 @@ works:
     technique: Графика
     size: 40 × 60
     sheet: 5/9
-  - title: ЗАБРОШЕННЫЕ КОРАБЛИ
+  - title: Волны
     image:
       src: korabli-work-6.png
       alt: Графическая работа Заброшенные корабли — лист 6
@@ -53,7 +53,7 @@ works:
     technique: Графика
     size: 40 × 60
     sheet: 6/9
-  - title: ЗАБРОШЕННЫЕ КОРАБЛИ
+  - title: Лодка
     image:
       src: korabli-work-7.png
       alt: Графическая работа Заброшенные корабли — лист 7
@@ -61,7 +61,7 @@ works:
     technique: Графика
     size: 40 × 60
     sheet: 7/9
-  - title: ЗАБРОШЕННЫЕ КОРАБЛИ
+  - title: Скелет
     image:
       src: korabli-work-8.png
       alt: Графическая работа Заброшенные корабли — лист 8
@@ -69,7 +69,7 @@ works:
     technique: Графика
     size: 40 × 60
     sheet: 8/9
-  - title: ЗАБРОШЕННЫЕ КОРАБЛИ
+  - title: Заброшенные корабли
     image:
       src: korabli-work-9.png
       alt: Графическая работа Заброшенные корабли — лист 9

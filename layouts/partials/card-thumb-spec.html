@@ -1,0 +1,5 @@
+{{- $spec := "800x webp q80" -}}
+{{- if in (.cardclass | default "") "card--wide" -}}
+  {{- $spec = "1600x webp q92" -}}
+{{- end -}}
+{{- return $spec -}}

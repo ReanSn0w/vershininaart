@@ -1,5 +1,5 @@
 ---
-title: Серия Город
+title: Ольхон
 collection: paintings
 description: Art series
 draft: false
@@ -13,7 +13,7 @@ works:
     technique: Темпера
     size: 120 × 80
     sheet: 1/4
-  - title: Ольхон
+  - title: Старый дом
     image:
       src: olhon-work-2.png
       alt: Живописная работа Ольхон — лист 2
@@ -21,7 +21,7 @@ works:
     technique: Темпера
     size: 120 × 80
     sheet: 2/4
-  - title: Ольхон
+  - title: Шаман скала
     image:
       src: olhon-work-3.png
       alt: Живописная работа Ольхон — лист 3
@@ -29,7 +29,7 @@ works:
     technique: Темпера
     size: 120 × 80
     sheet: 3/4
-  - title: Ольхон
+  - title: Шаманский лес
     image:
       src: olhon-work-4.png
       alt: Живописная работа Ольхон — лист 4

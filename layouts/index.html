@@ -24,7 +24,8 @@
             <a class="card {{ $params.cardclass }}" href="{{ .RelPermalink }}">
                 <figure class="card__media">
                     {{ if $imgRes }}
-                        {{ $thumb := $imgRes.Resize "800x webp q80" }}
+                        {{ $thumbSpec := partial "card-thumb-spec.html" (dict "cardclass" $params.cardclass) }}
+                        {{ $thumb := $imgRes.Resize $thumbSpec }}
                         <img
                             src="{{ $thumb.RelPermalink }}"
                             alt="{{ $firstWork.image.alt }}"

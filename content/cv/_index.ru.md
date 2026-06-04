@@ -19,6 +19,11 @@ description = "кафедра живописи, Иркутск"
 [[cv]]
 title = "Групповые проекты"
 [[cv.items]]
+title = "После любви"
+year = 2026
+description = "Москва"
+
+[[cv.items]]
 title = "победить время"
 year = 2025
 description = "Санкт-петербург"

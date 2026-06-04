@@ -13,7 +13,7 @@ works:
     technique: Tempera
     size: 120 × 80
     sheet: 1/4
-  - title: Olkhon
+  - title: Old house
     image:
       src: olhon-work-2.png
       alt: Painting Olkhon — sheet 2
@@ -21,7 +21,7 @@ works:
     technique: Tempera
     size: 120 × 80
     sheet: 2/4
-  - title: Olkhon
+  - title: Shaman rock
     image:
       src: olhon-work-3.png
       alt: Painting Olkhon — sheet 3
@@ -29,7 +29,7 @@ works:
     technique: Tempera
     size: 120 × 80
     sheet: 3/4
-  - title: Olkhon
+  - title: Shaman forest
     image:
       src: olhon-work-4.png
       alt: Painting Olkhon — sheet 4

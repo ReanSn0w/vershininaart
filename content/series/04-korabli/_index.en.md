@@ -5,7 +5,7 @@ description: Art series
 draft: false
 weight: 4
 works:
-  - title: ABANDONED SHIPS
+  - title: Crossing
     image:
       src: korabli-work-1.png
       alt: Graphic work Abandoned Ships — sheet 1
@@ -13,7 +13,7 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 1/9
-  - title: ABANDONED SHIPS
+  - title: Fishing nets
     image:
       src: korabli-work-2.png
       alt: Graphic work Abandoned Ships — sheet 2
@@ -21,7 +21,7 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 2/9
-  - title: ABANDONED SHIPS
+  - title: field
     image:
       src: korabli-work-3.png
       alt: Graphic work Abandoned Ships — sheet 3
@@ -29,7 +29,7 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 3/9
-  - title: ABANDONED SHIPS
+  - title: Boat
     image:
       src: korabli-work-4.png
       alt: Graphic work Abandoned Ships — sheet 4
@@ -37,7 +37,7 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 4/9
-  - title: ABANDONED SHIPS
+  - title: Ship wreck
     image:
       src: korabli-work-5.png
       alt: Graphic work Abandoned Ships — sheet 5
@@ -45,7 +45,7 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 5/9
-  - title: ABANDONED SHIPS
+  - title: Waves
     image:
       src: korabli-work-6.png
       alt: Graphic work Abandoned Ships — sheet 6
@@ -53,7 +53,7 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 6/9
-  - title: ABANDONED SHIPS
+  - title: Boats
     image:
       src: korabli-work-7.png
       alt: Graphic work Abandoned Ships — sheet 7
@@ -61,7 +61,7 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 7/9
-  - title: ABANDONED SHIPS
+  - title: Skeleton
     image:
       src: korabli-work-8.png
       alt: Graphic work Abandoned Ships — sheet 8
@@ -69,7 +69,7 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 8/9
-  - title: ABANDONED SHIPS
+  - title: Abandoned ships
     image:
       src: korabli-work-9.png
       alt: Graphic work Abandoned Ships — sheet 9

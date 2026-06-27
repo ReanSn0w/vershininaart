@@ -20,20 +20,24 @@
         <div class="series__media">
             <div class="series__stage">
                 {{ $imgRes := $.Resources.GetMatch $work.image.src }}
-                {{ if $imgRes }}
-                    {{ $full := $imgRes.Resize "1600x webp q88" }}
-                    <img
-                        class="artwork"
-                        src="{{ $full.RelPermalink }}"
-                        alt="{{ $work.image.alt }}"
-                    />
-                {{ else }}
-                    <img
-                        class="artwork"
-                        src="/series/{{ $seriesName }}/{{ $work.image.src }}"
-                        alt="{{ $work.image.alt }}"
-                    />
-                {{ end }}
+                <button class="artwork-open" type="button" aria-label="{{ i18n "openArtwork" }}">
+                    {{ if $imgRes }}
+                        {{ $full := $imgRes.Resize "1600x webp q88" }}
+                        <img
+                            class="artwork"
+                            src="{{ $full.RelPermalink }}"
+                            alt="{{ $work.image.alt }}"
+                            data-artwork-image
+                        />
+                    {{ else }}
+                        <img
+                            class="artwork"
+                            src="/series/{{ $seriesName }}/{{ $work.image.src }}"
+                            alt="{{ $work.image.alt }}"
+                            data-artwork-image
+                        />
+                    {{ end }}
+                </button>
             </div>
 
             <dl class="series__info">
@@ -70,22 +74,24 @@
 
                 {{ $firstWork := index $works 0 }}
                 {{ $firstImgRes := $.Resources.GetMatch $firstWork.image.src }}
-                {{ if $firstImgRes }}
-                    {{ $firstFull := $firstImgRes.Resize "1600x webp q88" }}
-                    <img
-                        class="artwork"
-                        src="{{ $firstFull.RelPermalink }}"
-                        alt="{{ $firstWork.image.alt }}"
-                        data-artwork-image
-                    />
-                {{ else }}
-                    <img
-                        class="artwork"
-                        src="/series/{{ $seriesName }}/{{ $firstWork.image.src }}"
-                        alt="{{ $firstWork.image.alt }}"
-                        data-artwork-image
-                    />
-                {{ end }}
+                <button class="artwork-open" type="button" aria-label="{{ i18n "openArtwork" }}">
+                    {{ if $firstImgRes }}
+                        {{ $firstFull := $firstImgRes.Resize "1600x webp q88" }}
+                        <img
+                            class="artwork"
+                            src="{{ $firstFull.RelPermalink }}"
+                            alt="{{ $firstWork.image.alt }}"
+                            data-artwork-image
+                        />
+                    {{ else }}
+                        <img
+                            class="artwork"
+                            src="/series/{{ $seriesName }}/{{ $firstWork.image.src }}"
+                            alt="{{ $firstWork.image.alt }}"
+                            data-artwork-image
+                        />
+                    {{ end }}
+                </button>
 
                 <button class="nav nav--next" type="button" aria-label="{{ i18n "nextWork" }}" data-slider-next>
                     <img src="/img/btn_Next.svg" alt="" />
@@ -122,6 +128,7 @@
 </main>
 
 <script src="/js/slider.js"></script>
+<script src="/js/image-viewer.js"></script>
 <script>
     {{ if ne (len $works) 1 }}
     const works = [
@@ -144,7 +151,6 @@
     initSlider();
     {{ end }}
 </script>
-</main>
 {{ else }}
 <!-- Это список всех серий -->
 <main class="page">

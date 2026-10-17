@@ -36,7 +36,21 @@
   function saveContext(context) {
     try { history.replaceState({ ...history.state, artReturn: context }, ''); } catch { /* Navigation still works. */ }
   }
-  function departure(toURL, navigationType = 'push') {
+  function traversalDirection(activation) {
+    if (activation?.navigationType !== 'traverse') return null;
+    const current = activation.from;
+    const target = activation.entry;
+    try {
+      const departing = JSON.parse(sessionStorage.getItem(`art-entry-${current?.key}`));
+      if (target?.index < current?.index && departing?.fromKey === target.key) {
+        return departing.direction === 'next' ? 'prev' : departing.direction === 'prev' ? 'next' : null;
+      }
+      const entering = JSON.parse(sessionStorage.getItem(`art-entry-${target?.key}`));
+      if (target?.index > current?.index && entering?.fromKey === current.key) return entering.direction;
+    } catch { /* Unknown history edges use a neutral transition. */ }
+    return null;
+  }
+  function departure(toURL, navigationType = 'push', activation = null) {
     const from = route(location.href);
     const to = route(toURL);
     if (!from || !to || from.url.pathname === to.url.pathname || from.lang !== to.lang) return null;
@@ -49,7 +63,8 @@
     const value = {
       from: location.href, to: to.url.href, time: Date.now(), navigationType,
       context: validContext(context) ? context : null,
-      direction: pending?.url === to.url.href ? pending.direction : null,
+      direction: navigationType === 'traverse' ? traversalDirection(activation) :
+        pending?.url === to.url.href ? pending.direction : null,
     };
     writeTransfer(value);
     return value;
@@ -83,6 +98,12 @@
     const context = history.state?.artReturn;
     const back = document.querySelector('[data-gallery-back]');
     if (back && validContext(context)) back.href = context.url;
+    const activation = window.navigation?.activation;
+    if (arrival?.direction && activation?.navigationType === 'push' && activation.entry?.key && activation.from?.key) {
+      try {
+        sessionStorage.setItem(`art-entry-${activation.entry.key}`, JSON.stringify({ fromKey: activation.from.key, direction: arrival.direction }));
+      } catch { /* Optional history animation metadata. */ }
+    }
     restoreGallery();
   }
 
@@ -157,6 +178,25 @@
     if (from.kind === 'info' && to.kind === 'gallery') root.dataset.transition = 'info-close';
   }
 
+  function workSlide(value, incoming, transition) {
+    if (!value) return;
+    const from = route(value.from);
+    const to = route(value.to);
+    if (from?.kind !== 'work' || to?.kind !== 'work' || from.lang !== to.lang || from.series !== to.series) return;
+    if (!['next', 'prev'].includes(value.direction)) return;
+    const image = document.querySelector('[data-artwork-image]');
+    const ready = visibleImage(image);
+    if (!incoming) value.workSlide = ready;
+    if (incoming && !value.workSlide) return;
+    if (!ready) {
+      if (incoming) transition.skipTransition();
+      return;
+    }
+    root.dataset.transition = `work-${value.direction}`;
+    name(image, 'work-image');
+    name(document.querySelector('.series__info'), 'work-info');
+  }
+
   // Same-document transitions are an enhancement; the mutation always runs.
   window.artTransitions = {
     run(update, setup, cleanup = clearNames) {
@@ -193,12 +233,13 @@
 
   window.addEventListener('pageswap', (event) => {
     const destination = event.activation?.entry?.url || pending?.url;
-    const value = destination ? departure(destination, event.activation?.navigationType || 'push') : null;
+    const value = destination ? departure(destination, event.activation?.navigationType || 'push', event.activation) : null;
     if (!event.viewTransition) return;
     if (reducedMotion.matches) event.viewTransition.skipTransition();
     else {
       sharedArtwork(value, false, event.viewTransition);
       informationSlide(value);
+      workSlide(value, false, event.viewTransition);
     }
     if (value) writeTransfer(value);
     settle(event.viewTransition);
@@ -213,6 +254,7 @@
     else {
       sharedArtwork(arrival, true, event.viewTransition);
       informationSlide(arrival);
+      workSlide(arrival, true, event.viewTransition);
     }
     settle(event.viewTransition);
   });

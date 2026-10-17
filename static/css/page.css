@@ -479,9 +479,6 @@ main.series {
     border-radius: 12px;
 }
 
-.artwork.is-animating {
-    animation: fade 260ms ease;
-}
 
 .series__info {
     width: 172px;
@@ -734,17 +731,6 @@ body.viewer-open {
     }
 }
 
-@keyframes fade {
-    from {
-        opacity: 0;
-        transform: translateY(6px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
 /* ─────────────────────────────────────────
    MEDIA QUERIES

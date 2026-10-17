@@ -71,6 +71,36 @@ html[data-transition^="viewer-"]::view-transition-group(artwork) { z-index: 3; }
     animation-duration: var(--transition-artwork-duration);
 }
 
+html[data-transition^="work-"]::view-transition-old(root),
+html[data-transition^="work-"]::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+::view-transition-group(work-image),
+::view-transition-group(work-info) { animation-duration: var(--transition-slide-duration); }
+::view-transition-image-pair(work-image),
+::view-transition-image-pair(work-info) { overflow: clip; }
+::view-transition-old(work-image), ::view-transition-new(work-image),
+::view-transition-old(work-info), ::view-transition-new(work-info) {
+    animation-duration: var(--transition-slide-duration);
+    animation-timing-function: var(--transition-easing);
+    animation-fill-mode: both;
+    mix-blend-mode: normal;
+}
+html[data-transition="work-next"]::view-transition-old(work-image),
+html[data-transition="work-next"]::view-transition-old(work-info) { animation-name: work-exit-left; }
+html[data-transition="work-next"]::view-transition-new(work-image),
+html[data-transition="work-next"]::view-transition-new(work-info) { animation-name: work-enter-right; }
+html[data-transition="work-prev"]::view-transition-old(work-image),
+html[data-transition="work-prev"]::view-transition-old(work-info) { animation-name: work-exit-right; }
+html[data-transition="work-prev"]::view-transition-new(work-image),
+html[data-transition="work-prev"]::view-transition-new(work-info) { animation-name: work-enter-left; }
+
+@keyframes work-enter-right { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes work-enter-left { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes work-exit-left { from { transform: translateX(0); opacity: 1; } to { transform: translateX(-100%); opacity: 0; } }
+@keyframes work-exit-right { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+
 @media (prefers-reduced-motion: reduce) {
     @view-transition { navigation: none; }
     ::view-transition-group(*),

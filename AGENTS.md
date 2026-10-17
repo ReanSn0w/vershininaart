@@ -75,6 +75,13 @@ works use `/series/<series>/<id>/` (with `/en/` for English).
 individual Markdown files with `work_id` or `slug`. The resource mount in
 `hugo.yaml` lets the adapter notice changes during `hugo server`.
 
+Gallery layout uses two optional series booleans, identical in both languages:
+`featured` (default false) enlarges the cover and `square` (default true) crops
+it to a square. Do not use `cardclass` or `card-class`. A featured square spans
+2×2 cells. A featured uncropped image spans 2×1 for landscape, 1×2 for portrait,
+or 2×2 for a square source. Unfeatured images occupy 1×1; uncropped images fit
+inside that area. One-column layouts disable enlargement. Captions stay below.
+
 1. **Hugo reads the configuration** (`hugo.yaml`)
    - Defines two languages: Russian (default) and English
    - Russian pages: `/`, `/about/`, `/series/`
@@ -382,7 +389,8 @@ collection: graphic-print  # graphic-print, paintings, or sculpture
 description: SEO description
 draft: false  # false = published, true = hidden
 weight: 1  # Sorting order (1, 2, 3...)
-cardclass: ""  # Optional: " card--compact" or other CSS classes
+featured: false
+square: true
 works:
   - id: work-1
     title: Work title
@@ -653,7 +661,8 @@ collection: paintings
 description: Живописная серия "Берег моря"
 draft: false
 weight: 12
-cardclass: ""
+featured: false
+square: true
 works:
   - id: wave-at-sunset
     title: Волна на закате
@@ -680,7 +689,8 @@ collection: paintings
 description: Painting series "Sea Coast"
 draft: false
 weight: 12
-cardclass: ""
+featured: false
+square: true
 works:
   - id: wave-at-sunset
     title: Wave at Sunset

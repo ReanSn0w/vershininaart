@@ -1,0 +1,29 @@
+{{- $page := .page -}}
+{{- $work := index $page.Params.works 0 -}}
+{{- $featured := $page.Params.featured | default false -}}
+{{- $square := true -}}
+{{- if isset $page.Params "square" }}{{ $square = $page.Params.square }}{{ end -}}
+{{- if or (ne (printf "%T" $featured) "bool") (ne (printf "%T" $square) "bool") -}}
+  {{- errorf "featured and square must be true/false in %s" $page.Path -}}
+{{- end -}}
+{{- $image := $page.Resources.GetMatch $work.image.src -}}
+{{- if not $image }}{{ errorf "Missing cover %s in %s" $work.image.src $page.Path }}{{ end -}}
+{{- $orientation := "square" -}}
+{{- if gt $image.Width $image.Height }}{{ $orientation = "landscape" }}
+{{- else if lt $image.Width $image.Height }}{{ $orientation = "portrait" }}{{ end -}}
+{{- $thumb := $image.Resize (partial "card-thumb-spec.html" (dict "featured" $featured)) -}}
+<a class="card" href="{{ $page.RelPermalink }}" data-work-id="{{ $work.id }}"
+   data-featured="{{ $featured }}" data-square="{{ $square }}" data-orientation="{{ $orientation }}"
+   data-transition-image="{{ partial "work-image-url.html" (dict "series" $page "index" 0) }}">
+    <figure class="card__media">
+        <img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}"
+             alt="{{ $work.image.alt }}" loading="lazy" />
+    </figure>
+    <div class="card__meta{{ if not .index }} card__meta--unnumbered{{ end }}">
+        {{ with .index }}<span class="card__index">{{ . }}</span>{{ end }}
+        <div class="card__info">
+            <h2 class="card__title">{{ $page.Title }}</h2>
+            <p class="card__technique">{{ $work.technique }}</p>
+        </div>
+    </div>
+</a>

@@ -4,7 +4,8 @@ collection: graphic-print
 description: Art series
 draft: false
 weight: 2
-cardclass: " card--compact"
+featured: false
+square: false
 works:
   - id: harmony-work-1
     title: HARMONY

@@ -20,6 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <title>{{ if $art }}{{ $art.title }}{{ else }}{{ .Title }}{{ end }} | {{ .Site.Title }}</title>
     <link rel="stylesheet" href="{{ if .IsHome }}/css/index.css{{else}}/css/page.css{{ end }}">
+    {{ if eq $kind "gallery" }}<link rel="stylesheet" href="/css/gallery.css">{{ end }}
     <link rel="stylesheet" href="/css/view-transitions.css">
     <script src="/js/view-transitions.js"></script>
 </head>

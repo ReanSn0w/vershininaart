@@ -4,7 +4,8 @@ collection: graphic-print
 description: Art series
 draft: false
 weight: 3
-cardclass: " card--ratio-356-325"
+featured: false
+square: false
 works:
   - id: ulov-work-1
     title: Улов

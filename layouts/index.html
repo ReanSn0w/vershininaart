@@ -10,47 +10,15 @@
         <h1 class="slide__title">{{ $collectionTitle }}</h1>
 
         <section class="slide__gallery" aria-label="Работы серии">
+            <div class="gallery-grid">
             {{ $count := 0 }} 
             {{ $pages := where (where $site.Pages "Section" "series") "Kind" "section" }}
             {{ range sort $pages "Weight" "asc" }}
             {{ if eq .Lang $lang }} {{ $params := .Params }} {{ if eq (index
             $params "collection") $collectionId }} {{ $count = add $count 1 }}
-            {{ $firstWork := index $params.works 0 }}
-            <!-- Извлекаем имя папки series из пути -->
-            {{ $parts := split .RelPermalink "/" }} {{ $seriesName := "" }} {{
-            range $i, $part := $parts }} {{ if eq $part "series" }} {{
-            $seriesName = index $parts (add $i 1) }} {{ end }} {{ end }}
-            {{ $imgRes := .Resources.GetMatch $firstWork.image.src }}
-            <a class="card {{ $params.cardclass }}" href="{{ .RelPermalink }}" data-work-id="{{ $firstWork.id }}" data-transition-image="{{ partial "work-image-url.html" (dict "series" . "index" 0) }}">
-                <figure class="card__media">
-                    {{ if $imgRes }}
-                        {{ $thumbSpec := partial "card-thumb-spec.html" (dict "cardclass" $params.cardclass) }}
-                        {{ $thumb := $imgRes.Resize $thumbSpec }}
-                        <img
-                            src="{{ $thumb.RelPermalink }}"
-                                width="{{ $thumb.Width }}" height="{{ $thumb.Height }}"
-                            alt="{{ $firstWork.image.alt }}"
-                            loading="lazy"
-                        />
-                    {{ else }}
-                        <img
-                            src="/series/{{ $seriesName }}/{{ $firstWork.image.src }}"
-                            alt="{{ $firstWork.image.alt }}"
-                            loading="lazy"
-                        />
-                    {{ end }}
-                </figure>
-                <div class="card__meta">
-                    <span class="card__index">{{ $count }}</span>
-                    <div class="card__info">
-                        <h2 class="card__title">{{ .Title }}</h2>
-                        <p class="card__technique">
-                            {{ $firstWork.technique }}
-                        </p>
-                    </div>
-                </div>
-            </a>
+            {{ partial "card.html" (dict "page" . "index" $count) }}
             {{ end }} {{ end }} {{ end }}
+            </div>
         </section>
     </section>
     {{ end }}

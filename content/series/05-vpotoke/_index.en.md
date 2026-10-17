@@ -4,7 +4,8 @@ collection: graphic-print
 description: Art series
 draft: false
 weight: 5
-card-class: " card--wide"
+featured: true
+square: false
 works:
   - id: vpotoke-work1
     title: In the Stream

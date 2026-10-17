@@ -52,7 +52,7 @@
                 {{ $art := partial "artwork-data.html" . }}
                 {{ if and $art (eq $art.index 0) }}
                     {{ $cover := $art.series.Resources.GetMatch $art.work.image.src }}
-                    {{ $thumb := $cover.Resize (partial "card-thumb-spec.html" (dict "cardclass" $art.series.Params.cardclass)) }}
+                    {{ $thumb := $cover.Resize (partial "card-thumb-spec.html" (dict "featured" $art.series.Params.featured)) }}
                     {{ $returnImage = $thumb.RelPermalink }}
                 {{ end }}
                 <a class="site-header__back" href="{{ $homeURL }}" aria-label="{{ i18n "back" }}" data-gallery-back{{ with $returnImage }} data-transition-image="{{ . }}"{{ end }}>

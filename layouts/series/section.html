@@ -7,46 +7,13 @@
     <h1 class="page__title">{{ .Title }}</h1>
 
     <section class="slide__gallery" aria-label="Все серии">
+        <div class="gallery-grid">
         {{ range sort .Pages "Weight" "asc" }}
             {{ if .Params.works }}
-                {{ $firstWork := index .Params.works 0 }}
-                <!-- Извлекаем имя папки series из пути -->
-                {{ $parts := split .RelPermalink "/" }}
-                {{ $seriesName := "" }}
-                {{ range $i, $part := $parts }}
-                    {{ if eq $part "series" }}
-                        {{ $seriesName = index $parts (add $i 1) }}
-                    {{ end }}
-                {{ end }}
-                <a class="card{{ .Params.cardclass }}" href="{{ .RelPermalink }}" data-work-id="{{ $firstWork.id }}">
-                    <figure class="card__media">
-                        {{ $imgRes := .Resources.GetMatch $firstWork.image.src }}
-                        {{ if $imgRes }}
-                            {{ $thumbSpec := partial "card-thumb-spec.html" (dict "cardclass" .Params.cardclass) }}
-                            {{ $thumb := $imgRes.Resize $thumbSpec }}
-                            <img
-                                src="{{ $thumb.RelPermalink }}"
-                                width="{{ $thumb.Width }}" height="{{ $thumb.Height }}"
-                                alt="{{ $firstWork.image.alt }}"
-                                loading="lazy"
-                            />
-                        {{ else }}
-                            <img
-                                src="/series/{{ $seriesName }}/{{ $firstWork.image.src }}"
-                                alt="{{ $firstWork.image.alt }}"
-                                loading="lazy"
-                            />
-                        {{ end }}
-                    </figure>
-                    <div class="card__meta">
-                        <div class="card__info">
-                            <h2 class="card__title">{{ .Title }}</h2>
-                            <p class="card__technique">{{ $firstWork.technique }}</p>
-                        </div>
-                    </div>
-                </a>
+                {{ partial "card.html" (dict "page" .) }}
             {{ end }}
         {{ end }}
+        </div>
     </section>
 </main>
 {{ end }}

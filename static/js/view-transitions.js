@@ -148,6 +148,15 @@
     name(image, 'artwork');
   }
 
+  function informationSlide(value) {
+    if (!value) return;
+    const from = route(value.from);
+    const to = route(value.to);
+    if (!from || !to || from.lang !== to.lang) return;
+    if (from.kind === 'gallery' && to.kind === 'info') root.dataset.transition = 'info-open';
+    if (from.kind === 'info' && to.kind === 'gallery') root.dataset.transition = 'info-close';
+  }
+
   // Same-document transitions are an enhancement; the mutation always runs.
   window.artTransitions = {
     run(update, setup, cleanup = clearNames) {
@@ -187,7 +196,10 @@
     const value = destination ? departure(destination, event.activation?.navigationType || 'push') : null;
     if (!event.viewTransition) return;
     if (reducedMotion.matches) event.viewTransition.skipTransition();
-    else sharedArtwork(value, false, event.viewTransition);
+    else {
+      sharedArtwork(value, false, event.viewTransition);
+      informationSlide(value);
+    }
     if (value) writeTransfer(value);
     settle(event.viewTransition);
   });
@@ -198,7 +210,10 @@
     restoreGallery();
     if (!event.viewTransition) return;
     if (reducedMotion.matches) event.viewTransition.skipTransition();
-    else sharedArtwork(arrival, true, event.viewTransition);
+    else {
+      sharedArtwork(arrival, true, event.viewTransition);
+      informationSlide(arrival);
+    }
     settle(event.viewTransition);
   });
   window.addEventListener('pageshow', (event) => {

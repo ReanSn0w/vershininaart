@@ -4,6 +4,8 @@ collection: paintings
 description: Art series
 draft: false
 weight: 8
+featured: true
+square: false
 works:
   - id: olhon-work-1
     title: Ольхон
@@ -44,4 +46,3 @@ works:
 ---
 
 # Серия Город
-

@@ -4,6 +4,8 @@ collection: sculpture
 description: Art series
 draft: false
 weight: 10
+featured: false
+square: true
 works:
   - id: skelet-work-1
     title: Whale Skeleton

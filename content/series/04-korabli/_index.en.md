@@ -4,6 +4,8 @@ collection: graphic-print
 description: Art series
 draft: false
 weight: 4
+featured: false
+square: false
 works:
   - id: korabli-work-1
     title: Crossing

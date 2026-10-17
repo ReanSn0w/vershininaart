@@ -11,9 +11,10 @@
 {{- $orientation := "square" -}}
 {{- if gt $image.Width $image.Height }}{{ $orientation = "landscape" }}
 {{- else if lt $image.Width $image.Height }}{{ $orientation = "portrait" }}{{ end -}}
+{{- $tall := gt (mul $image.Height 2) (mul $image.Width 3) -}}
 {{- $thumb := $image.Resize (partial "card-thumb-spec.html" (dict "featured" $featured)) -}}
 <a class="card" href="{{ $page.RelPermalink }}" data-work-id="{{ $work.id }}"
-   data-featured="{{ $featured }}" data-square="{{ $square }}" data-orientation="{{ $orientation }}"
+   data-featured="{{ $featured }}" data-square="{{ $square }}" data-orientation="{{ $orientation }}" data-tall="{{ $tall }}"
    data-transition-image="{{ partial "work-image-url.html" (dict "series" $page "index" 0) }}">
     <figure class="card__media">
         <img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}"

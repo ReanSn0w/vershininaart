@@ -4,6 +4,8 @@ collection: paintings
 description: Серия о Шри Ланке
 draft: false
 weight: 11
+featured: false
+square: true
 works:
 - id: volni-i-seti-work-1
   title: Волны и сети

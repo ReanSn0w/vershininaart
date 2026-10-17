@@ -4,6 +4,8 @@ collection: graphic-print
 description: Art series
 draft: false
 weight: 1
+featured: false
+square: false
 works:
   - id: rybaki-work-1
     title: Рыбаки
@@ -26,4 +28,3 @@ works:
 ---
 
 # Рыбаки
-

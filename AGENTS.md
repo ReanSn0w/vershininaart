@@ -78,9 +78,12 @@ individual Markdown files with `work_id` or `slug`. The resource mount in
 Gallery layout uses two optional series booleans, identical in both languages:
 `featured` (default false) enlarges the cover and `square` (default true) crops
 it to a square. Do not use `cardclass` or `card-class`. A featured square spans
-2×2 cells. A featured uncropped image spans 2×1 for landscape, 1×2 for portrait,
-or 2×2 for a square source. Unfeatured images occupy 1×1; uncropped images fit
-inside that area. One-column layouts disable enlargement. Captions stay below.
+2×2 cells. A featured uncropped image uses one column for portrait, two columns
+for landscape or square sources, and its natural image height. Portraits with
+height / width > 1.5 span two rows; other portraits grow a single row.
+Unfeatured images occupy 1×1; uncropped images fit inside that area, align to
+the top, and their captions follow the image without empty space in between.
+One-column layouts disable enlargement. Square crops stay centered.
 
 1. **Hugo reads the configuration** (`hugo.yaml`)
    - Defines two languages: Russian (default) and English

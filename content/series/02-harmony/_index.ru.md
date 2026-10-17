@@ -4,7 +4,7 @@ collection: graphic-print
 description: Art series
 draft: false
 weight: 2
-featured: false
+featured: true
 square: false
 works:
   - id: harmony-work-1

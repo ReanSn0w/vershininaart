@@ -4,6 +4,8 @@ collection: paintings
 description: Art series
 draft: false
 weight: 7
+featured: true
+square: false
 works:
   - id: baikal-work-1
     title: Baikal

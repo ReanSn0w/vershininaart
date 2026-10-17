@@ -4,6 +4,8 @@ collection: graphic-print
 description: Art series
 draft: false
 weight: 11
+featured: false
+square: true
 works:
   - id: bereg-1
     title: Берег

@@ -11,8 +11,8 @@
     grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
     grid-auto-rows: minmax(calc(var(--unit) + 96px), auto);
     gap: var(--grid-gap);
-    /* Keep reading and keyboard order consistent; do not pack with dense. */
-    grid-auto-flow: row;
+    /* Fill gaps with later cards that fit; DOM and keyboard order stay unchanged. */
+    grid-auto-flow: row dense;
 }
 .card {
     --columns-span: 1;
@@ -46,6 +46,16 @@
     overflow: hidden;
 }
 .card[data-square="true"] .card__media img { object-fit: cover; }
+/* Uncropped images start at the top; the caption follows the visible image. */
+.card[data-square="false"] .card__media {
+    display: block;
+    height: auto;
+}
+.card[data-square="false"] .card__media img {
+    height: auto;
+    max-height: var(--unit);
+    object-position: center top;
+}
 .card__meta {
     display: grid;
     grid-template-columns: 32px minmax(0, 1fr);
@@ -74,10 +84,14 @@
 .card:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
 @container (min-width: 600px) {
     .gallery-grid { --columns: 2; }
-    .card[data-featured="true"][data-square="true"],
-    .card[data-featured="true"][data-orientation="square"] { --columns-span: 2; --rows-span: 2; }
-    .card[data-featured="true"][data-square="false"][data-orientation="landscape"] { --columns-span: 2; }
-    .card[data-featured="true"][data-square="false"][data-orientation="portrait"] { --rows-span: 2; }
+    .card[data-featured="true"][data-square="true"] { --columns-span: 2; --rows-span: 2; }
+    .card[data-featured="true"][data-square="false"][data-orientation="landscape"],
+    .card[data-featured="true"][data-square="false"][data-orientation="square"] { --columns-span: 2; }
+    /* Only portraits taller than 1.5 widths span two rows. */
+    .card[data-featured="true"][data-square="false"][data-tall="true"] { --rows-span: 2; }
+    .card[data-featured="true"][data-square="false"] .card__media img {
+        max-height: none;
+    }
 }
 @container (min-width: 960px) {
     .gallery-grid { --columns: 3; --grid-gap: 48px; }

@@ -4,6 +4,8 @@ collection: paintings
 description: Art series
 draft: false
 weight: 9
+featured: true
+square: true
 works:
   - id: fata-morgana-work-1
     title: FATA MORGANA

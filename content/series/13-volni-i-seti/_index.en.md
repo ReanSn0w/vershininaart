@@ -4,6 +4,8 @@ collection: paintings
 description: Shri lankian series
 draft: false
 weight: 11
+featured: false
+square: true
 works:
 - id: volni-i-seti-work-1
   title: Waves and fishing nets

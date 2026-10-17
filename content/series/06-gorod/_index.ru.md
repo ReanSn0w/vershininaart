@@ -4,6 +4,8 @@ collection: graphic-print
 description: Art series
 draft: false
 weight: 6
+featured: true
+square: false
 works:
   - id: gorod-work-1
     title: Лестницы

@@ -472,6 +472,7 @@ main.series {
 
 .artwork {
     width: 100%;
+    height: auto;
     object-fit: contain;
     display: block;
     aspect-ratio: 873 / 645;

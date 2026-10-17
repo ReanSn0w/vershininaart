@@ -48,7 +48,7 @@
                     {{ $homeURL = (printf "/%s/" $currentLang) }}
                 {{ end }}
                 
-                <a class="site-header__back" href="{{ $homeURL }}" aria-label="{{ i18n "back" }}">
+                <a class="site-header__back" href="{{ $homeURL }}" aria-label="{{ i18n "back" }}" data-gallery-back>
                     <span class="site-header__back-icon" aria-hidden="true">
                         <img src="/img/btn_Back.svg" alt="" />
                     </span>

@@ -63,6 +63,18 @@ vershininaart/
 
 ## How Site Generation Works
 
+### Artwork pages (Hugo Extended 0.159.2+)
+
+Edit only the series `_index.ru.md` and `_index.en.md` files and images. Every item
+in `works` requires a stable `id` (lowercase Latin letters, digits and single
+hyphens), unique within the series and identical in both languages. Keep IDs
+unchanged when renaming works. The first work uses the series URL; subsequent
+works use `/series/<series>/<id>/` (with `/en/` for English).
+
+`content/series/_content.gotmpl` creates these pages automatically. Do not create
+individual Markdown files with `work_id` or `slug`. The resource mount in
+`hugo.yaml` lets the adapter notice changes during `hugo server`.
+
 1. **Hugo reads the configuration** (`hugo.yaml`)
    - Defines two languages: Russian (default) and English
    - Russian pages: `/`, `/about/`, `/series/`
@@ -372,7 +384,8 @@ draft: false  # false = published, true = hidden
 weight: 1  # Sorting order (1, 2, 3...)
 cardclass: ""  # Optional: " card--compact" or other CSS classes
 works:
-  - title: Work title
+  - id: work-1
+    title: Work title
     image:
       src: image-file.jpg
       alt: SEO and accessibility description
@@ -380,7 +393,8 @@ works:
     technique: Technique name
     size: 50 × 70  # Important: × symbol (not x!)
     sheet: 1/2  # Optional for multi-sheet works
-  - title: Second work
+  - id: work-2
+    title: Second work
     image:
       src: another-file.jpg
       alt: Second description
@@ -641,14 +655,16 @@ draft: false
 weight: 12
 cardclass: ""
 works:
-  - title: Волна на закате
+  - id: wave-at-sunset
+    title: Волна на закате
     image:
       src: wave-sunset.jpg
       alt: Живописная работа "Волна на закате" — темпера на холсте
     year: 2024
     technique: Темпера на холсте
     size: 70 × 90
-  - title: Прибой
+  - id: surf
+    title: Прибой
     image:
       src: surf.jpg
       alt: Живописная работа "Прибой" — акрил на холсте
@@ -666,14 +682,16 @@ draft: false
 weight: 12
 cardclass: ""
 works:
-  - title: Wave at Sunset
+  - id: wave-at-sunset
+    title: Wave at Sunset
     image:
       src: wave-sunset.jpg
       alt: Painting work "Wave at Sunset" — tempera on canvas
     year: 2024
     technique: Tempera on canvas
     size: 70 × 90
-  - title: Surf
+  - id: surf
+    title: Surf
     image:
       src: surf.jpg
       alt: Painting work "Surf" — acrylic on canvas

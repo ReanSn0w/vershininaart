@@ -1,4 +1,16 @@
 baseURL: "https://vershininaart.ru/"
+# Invalidate adapter dependencies when metadata is added, removed or edited.
+build:
+  cachebusters:
+    - source: 'assets/series-source/.*/_index\.(ru|en)\.md$'
+      target: '.*'
+# Read series metadata as resources so adapters rebuild when authors edit it.
+module:
+  mounts:
+    - source: assets
+      target: assets
+    - source: content/series
+      target: assets/series-source
 languageCode: "ru"
 title: "Vershinina Art"
 locale: "ru-RU"

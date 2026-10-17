@@ -1,0 +1,34 @@
+{{/* Work pages are derived from the series YAML; no per-work files are needed. */}}
+{{ .EnableAllLanguages }}
+{{ $adapter := . }}
+{{ $language := .Site.Language.Lang }}
+{{ range resources.Match (printf "series-source/**/_index.%s.md" $language) }}
+  {{ $directory := path.Base (path.Dir .Name) }}
+  {{ $source := .Name }}
+  {{ $raw := .Content }}
+  {{ $pattern := `(?s)^---\r?\n(.*?)\r?\n---(?:\r?\n|$).*` }}
+  {{ if not (findRE $pattern $raw) }}
+    {{ errorf "Expected YAML front matter in %s" $source }}
+  {{ else }}
+    {{ $data := transform.Unmarshal (dict "format" "yaml") (replaceRE $pattern "$1" $raw) }}
+    {{ $ids := slice }}
+    {{ range $index, $work := $data.works }}
+      {{ $id := $work.id | default "" }}
+      {{ if or (not (findRE `^[a-z0-9]+(-[a-z0-9]+)*$` $id)) (in $ids $id) }}
+        {{ errorf "Missing, invalid or duplicate work id %q in %s" $id $source }}
+      {{ else }}
+        {{ $ids = $ids | append $id }}
+        {{ if gt $index 0 }}
+          {{ $adapter.AddPage (dict
+            "path" (printf "%s/%s" $directory $id)
+            "kind" "page"
+            "title" $work.title
+            "slug" $id
+            "draft" ($data.draft | default false)
+            "params" (dict "work_id" $id)
+          ) }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}

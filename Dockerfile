@@ -1,4 +1,4 @@
-FROM klakegg/hugo:ext-alpine AS builder
+FROM hugomods/hugo:0.159.2 AS builder
 
 # рабочая директория внутри контейнера
 WORKDIR /src

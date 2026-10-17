@@ -12,6 +12,7 @@ const THEME_ASSETS = {
 
 function applyTheme(nextTheme) {
   const theme = nextTheme === "light" ? "light" : "dark";
+  document.documentElement.dataset.theme = theme;
   document.body.dataset.theme = theme;
 
   THEME_BUTTONS.forEach((button) => {
@@ -21,7 +22,7 @@ function applyTheme(nextTheme) {
     button.setAttribute("aria-label", THEME_ASSETS[theme].label);
   });
 
-  localStorage.setItem("artist-theme", theme);
+  try { localStorage.setItem("artist-theme", theme); } catch { /* Theme still works without storage. */ }
 }
 
 function toggleTheme() {
@@ -35,6 +36,5 @@ if (THEME_BUTTONS.length) {
     button.addEventListener("click", toggleTheme);
   });
 
-  const savedTheme = localStorage.getItem("artist-theme");
-  applyTheme(savedTheme || "dark");
+  applyTheme(document.documentElement.dataset.theme || "dark");
 }

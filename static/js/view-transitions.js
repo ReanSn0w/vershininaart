@@ -93,7 +93,10 @@
     initialized = true;
     arrival = receive();
     const type = performance.getEntriesByType('navigation')[0]?.type;
-    if (arrival) saveContext(arrival.context);
+    if (arrival) {
+      saveContext(arrival.context);
+      try { sessionStorage.removeItem(transferKey); } catch { /* Optional storage. */ }
+    }
     else if (type !== 'reload' && type !== 'back_forward') saveContext(null);
     const context = history.state?.artReturn;
     const back = document.querySelector('[data-gallery-back]');
@@ -246,7 +249,6 @@
   });
   window.addEventListener('pagereveal', (event) => {
     clearNames();
-    initialized = false;
     initialize();
     restoreGallery();
     if (!event.viewTransition) return;
@@ -258,11 +260,12 @@
     }
     settle(event.viewTransition);
   });
-  window.addEventListener('pageshow', (event) => {
+  window.addEventListener('pagehide', () => {
+    initialized = false;
+    arrival = null;
+  });
+  window.addEventListener('pageshow', () => {
     pending = null;
-    if (event.persisted) {
-      initialized = false;
-      initialize();
-    }
+    initialize();
   });
 })();

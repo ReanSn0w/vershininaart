@@ -9,6 +9,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        try { document.documentElement.dataset.theme = localStorage.getItem('artist-theme') === 'light' ? 'light' : 'dark'; }
+        catch { document.documentElement.dataset.theme = 'dark'; }
+    </script>
     <meta name="description" content="{{ if $art }}{{ $art.work.image.alt }}{{ else }}{{ with .Description }}{{ . }}{{ else }}Портфолио художника Анны Вершининой | Portfolio of artist Anna Vershinina{{ end }}{{ end }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

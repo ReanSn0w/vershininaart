@@ -16,7 +16,7 @@
                 {{ if not $image }}{{ errorf "Missing artwork %s in %s" $work.image.src $series.Path }}{{ end }}
                 {{ $full := $image.Resize "1600x webp q88" }}
                 <img class="artwork" src="{{ $full.RelPermalink }}" alt="{{ $work.image.alt }}"
-                     width="{{ $full.Width }}" height="{{ $full.Height }}" data-artwork-image />
+                     width="{{ $full.Width }}" height="{{ $full.Height }}" data-artwork-image data-work-id="{{ $work.id }}" />
             </button>
             {{ if gt $count 1 }}
             {{ $next := mod (add $data.index 1) $count }}

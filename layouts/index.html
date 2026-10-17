@@ -21,13 +21,14 @@
             range $i, $part := $parts }} {{ if eq $part "series" }} {{
             $seriesName = index $parts (add $i 1) }} {{ end }} {{ end }}
             {{ $imgRes := .Resources.GetMatch $firstWork.image.src }}
-            <a class="card {{ $params.cardclass }}" href="{{ .RelPermalink }}">
+            <a class="card {{ $params.cardclass }}" href="{{ .RelPermalink }}" data-work-id="{{ $firstWork.id }}">
                 <figure class="card__media">
                     {{ if $imgRes }}
                         {{ $thumbSpec := partial "card-thumb-spec.html" (dict "cardclass" $params.cardclass) }}
                         {{ $thumb := $imgRes.Resize $thumbSpec }}
                         <img
                             src="{{ $thumb.RelPermalink }}"
+                                width="{{ $thumb.Width }}" height="{{ $thumb.Height }}"
                             alt="{{ $firstWork.image.alt }}"
                             loading="lazy"
                         />

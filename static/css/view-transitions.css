@@ -17,6 +17,18 @@
     animation-duration: 180ms;
 }
 
+::view-transition-group(artwork) {
+    animation-duration: var(--transition-artwork-duration);
+}
+
+::view-transition-old(artwork),
+::view-transition-new(artwork) {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    mix-blend-mode: normal;
+}
+
 @media (prefers-reduced-motion: reduce) {
     @view-transition { navigation: none; }
     ::view-transition-group(*),

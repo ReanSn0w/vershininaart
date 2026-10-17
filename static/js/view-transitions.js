@@ -110,6 +110,44 @@
     transition.finished.then(cleanup, cleanup);
   }
 
+  function name(element, value) {
+    if (!element) return;
+    element.style.viewTransitionName = value;
+    element.dataset.transitionNamed = '';
+  }
+  function visibleImage(image) {
+    if (!image?.complete || !image.naturalWidth) return false;
+    const rect = image.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < innerHeight && rect.right > 0 && rect.left < innerWidth;
+  }
+  function sharedArtwork(value, incoming, transition) {
+    if (!value) return;
+    const from = route(value.from);
+    const to = route(value.to);
+    if (!from || !to || from.lang !== to.lang) return;
+    const other = incoming ? from : to;
+    let image;
+    if (root.dataset.pageKind === 'gallery' && other.kind === 'work' && !other.work) {
+      const card = Array.from(document.querySelectorAll('.card[data-work-id]'))
+        .find((link) => new URL(link.href).pathname === other.url.pathname);
+      image = card?.querySelector('img');
+    } else if (root.dataset.pageKind === 'work' && root.dataset.workIndex === '0' && other.kind === 'gallery') {
+      image = document.querySelector('[data-artwork-image]');
+    } else return;
+
+    const restored = root.dataset.pageKind !== 'gallery' || !validContext(value.context) ||
+      Math.abs(scrollY - value.context.y) < 3;
+    const ready = visibleImage(image) && restored;
+    if (!incoming) value.sharedArtwork = ready;
+    if (incoming && !value.sharedArtwork) return;
+    if (!ready) {
+      if (incoming) transition.skipTransition();
+      return;
+    }
+    root.dataset.transition = 'artwork';
+    name(image, 'artwork');
+  }
+
   // Same-document transitions are an enhancement; the mutation always runs.
   window.artTransitions = {
     run(update, setup, cleanup = clearNames) {
@@ -146,23 +184,26 @@
 
   window.addEventListener('pageswap', (event) => {
     const destination = event.activation?.entry?.url || pending?.url;
-    if (destination) departure(destination, event.activation?.navigationType || 'push');
+    const value = destination ? departure(destination, event.activation?.navigationType || 'push') : null;
     if (!event.viewTransition) return;
     if (reducedMotion.matches) event.viewTransition.skipTransition();
+    else sharedArtwork(value, false, event.viewTransition);
+    if (value) writeTransfer(value);
     settle(event.viewTransition);
   });
   window.addEventListener('pagereveal', (event) => {
     clearNames();
+    initialized = false;
     initialize();
     restoreGallery();
     if (!event.viewTransition) return;
     if (reducedMotion.matches) event.viewTransition.skipTransition();
+    else sharedArtwork(arrival, true, event.viewTransition);
     settle(event.viewTransition);
   });
   window.addEventListener('pageshow', (event) => {
     pending = null;
     if (event.persisted) {
-      clearNames();
       initialized = false;
       initialize();
     }

@@ -18,7 +18,7 @@
                         {{ $seriesName = index $parts (add $i 1) }}
                     {{ end }}
                 {{ end }}
-                <a class="card{{ .Params.cardclass }}" href="{{ .RelPermalink }}">
+                <a class="card{{ .Params.cardclass }}" href="{{ .RelPermalink }}" data-work-id="{{ $firstWork.id }}">
                     <figure class="card__media">
                         {{ $imgRes := .Resources.GetMatch $firstWork.image.src }}
                         {{ if $imgRes }}
@@ -26,6 +26,7 @@
                             {{ $thumb := $imgRes.Resize $thumbSpec }}
                             <img
                                 src="{{ $thumb.RelPermalink }}"
+                                width="{{ $thumb.Width }}" height="{{ $thumb.Height }}"
                                 alt="{{ $firstWork.image.alt }}"
                                 loading="lazy"
                             />

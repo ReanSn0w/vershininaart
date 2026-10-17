@@ -1,10 +1,16 @@
 {{ $data := partial "artwork-data.html" . }}
 {{ $series := $data.series }}
 {{ $work := $data.work }}
+{{ $count := len $series.Params.works }}
 <main class="series">
     <h1 class="series__title">{{ $series.Title }}</h1>
     <div class="series__media">
         <div class="series__stage">
+            {{ if gt $count 1 }}
+            {{ $prev := mod (add $data.index (sub $count 1)) $count }}
+            <a class="nav nav--prev" href="{{ partial "work-url.html" (dict "series" $series "index" $prev) }}"
+               aria-label="{{ i18n "prevWork" }}" data-work-direction="prev"><img src="/img/btn_Previous.svg" alt="" /></a>
+            {{ end }}
             <button class="artwork-open" type="button" aria-label="{{ i18n "openArtwork" }}">
                 {{ $image := $series.Resources.GetMatch $work.image.src }}
                 {{ if not $image }}{{ errorf "Missing artwork %s in %s" $work.image.src $series.Path }}{{ end }}
@@ -12,7 +18,22 @@
                 <img class="artwork" src="{{ $full.RelPermalink }}" alt="{{ $work.image.alt }}"
                      width="{{ $full.Width }}" height="{{ $full.Height }}" data-artwork-image />
             </button>
+            {{ if gt $count 1 }}
+            {{ $next := mod (add $data.index 1) $count }}
+            <a class="nav nav--next" href="{{ partial "work-url.html" (dict "series" $series "index" $next) }}"
+               aria-label="{{ i18n "nextWork" }}" data-work-direction="next"><img src="/img/btn_Next.svg" alt="" /></a>
+            {{ end }}
         </div>
+        {{ if gt $count 1 }}
+        <nav class="slider-dots" aria-label="{{ i18n "works" }}">
+            {{ range $i, $item := $series.Params.works }}
+            <a class="slider-dot{{ if eq $i $data.index }} active{{ end }}"
+               href="{{ partial "work-url.html" (dict "series" $series "index" $i) }}"
+               aria-label="{{ i18n "goToWork" }} {{ add $i 1 }}"
+               {{ if eq $i $data.index }}aria-current="page"{{ else }}data-work-direction="{{ if gt $i $data.index }}next{{ else }}prev{{ end }}"{{ end }}></a>
+            {{ end }}
+        </nav>
+        {{ end }}
         <dl class="series__info">
             <div class="info__name"><dd>{{ $work.title }}</dd></div>
             <div class="info__row"><dt>{{ i18n "yearCreated" }}:</dt><dd>{{ $work.year }}</dd></div>
@@ -22,4 +43,5 @@
         </dl>
     </div>
 </main>
+<script src="/js/slider.js"></script>
 <script src="/js/image-viewer.js"></script>

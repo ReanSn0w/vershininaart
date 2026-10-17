@@ -1,139 +1,62 @@
-const imageEl = document.querySelector("[data-artwork-image]");
-const navPrev = document.querySelector(".nav--prev");
-const navNext = document.querySelector(".nav--next");
-const stage = document.querySelector(".series__stage");
-const dotsContainer = document.querySelector("[data-slider-dots]");
-const infoFields = {
-  title: document.querySelector('[data-meta="title"]'),
-  year: document.querySelector('[data-meta="year"]'),
-  technique: document.querySelector('[data-meta="technique"]'),
-  size: document.querySelector('[data-meta="size"]'),
-  sheet: document.querySelector('[data-meta="sheet"]'),
-};
+// A swipe follows the same link as an arrow. The browser owns navigation/history.
+(() => {
+  const surface = document.querySelector('.series__stage');
+  if (!surface || !surface.querySelector('[data-work-direction]')) return;
+  let start = null;
+  let horizontal = false;
+  let navigating = false;
+  let suppressClickUntil = 0;
+  let unlockTimer;
 
-let activeIndex = 0;
+  function resetGesture() {
+    start = null;
+    horizontal = false;
+  }
+  function unlock() {
+    navigating = false;
+    clearTimeout(unlockTimer);
+    resetGesture();
+  }
+  window.addEventListener('pageshow', unlock);
+  window.navigation?.addEventListener('navigateerror', unlock);
 
-function runAnimation(element) {
-  if (!element) return;
-  element.classList.remove("is-animating");
-  void element.offsetWidth;
-  element.classList.add("is-animating");
-}
-
-function updateView(index) {
-  const current = works[index];
-  if (!current || !imageEl) return;
-
-  imageEl.src = current.image;
-  imageEl.alt = current.alt;
-  runAnimation(imageEl);
-
-  Object.entries(infoFields).forEach(([key, element]) => {
-    if (!element) return;
-    element.textContent = current[key] || "";
-  });
-
-  updateDots(index);
-}
-
-function updateDots(index) {
-  if (!dotsContainer) return;
-  const dots = dotsContainer.querySelectorAll(".slider-dot");
-  dots.forEach((dot, i) => {
-    if (i === index) {
-      dot.classList.add("active");
-    } else {
-      dot.classList.remove("active");
-    }
-  });
-}
-
-function initDots() {
-  if (!dotsContainer || works.length <= 1) return;
-  dotsContainer.innerHTML = "";
-  works.forEach((_, index) => {
-    const dot = document.createElement("button");
-    dot.className = "slider-dot";
-    if (index === 0) dot.classList.add("active");
-    dot.setAttribute("aria-label", `Перейти к изображению ${index + 1}`);
-    dot.addEventListener("click", () => {
-      activeIndex = index;
-      updateView(activeIndex);
-    });
-    dotsContainer.appendChild(dot);
-  });
-}
-
-function showNext() {
-  console.log("showNext вызвана, activeIndex:", activeIndex, "→", (activeIndex + 1) % works.length);
-  activeIndex = (activeIndex + 1) % works.length;
-  updateView(activeIndex);
-}
-
-function showPrev() {
-  console.log("showPrev вызвана, activeIndex:", activeIndex, "→", (activeIndex - 1 + works.length) % works.length);
-  activeIndex = (activeIndex - 1 + works.length) % works.length;
-  updateView(activeIndex);
-}
-
-navNext?.addEventListener("click", showNext);
-navPrev?.addEventListener("click", showPrev);
-
-function attachSwipe(surface) {
-  if (!surface || works.length <= 1) return;
-  let startX = 0;
-  let startY = 0;
-  let isSwiping = false;
-  let isStarted = false;
-
-  surface.addEventListener("touchstart", (event) => {
-    startX = event.touches[0]?.clientX ?? 0;
-    startY = event.touches[0]?.clientY ?? 0;
-    isSwiping = false;
-    isStarted = true;  // ✅
+  surface.addEventListener('touchstart', (event) => {
+    resetGesture();
+    if (navigating || event.touches.length !== 1 || document.body.classList.contains('viewer-open')) return;
+    start = { x: event.touches[0].clientX, y: event.touches[0].clientY };
   }, { passive: true });
 
-  surface.addEventListener("touchmove", (event) => {
-    if (!isStarted) return;
-    const currentX = event.touches[0]?.clientX ?? 0;
-    const currentY = event.touches[0]?.clientY ?? 0;
-    const deltaX = Math.abs(currentX - startX);
-    const deltaY = Math.abs(currentY - startY);
-
-    if (deltaX > deltaY && deltaX > 10) {
-      isSwiping = true;
-    }
+  surface.addEventListener('touchmove', (event) => {
+    if (!start) return;
+    if (event.touches.length !== 1) return resetGesture();
+    const dx = Math.abs(event.touches[0].clientX - start.x);
+    const dy = Math.abs(event.touches[0].clientY - start.y);
+    // Once vertical scrolling wins, this gesture cannot become a page turn.
+    if (dy > 10 && dy >= dx) return resetGesture();
+    horizontal = dx > dy && dx > 10;
   }, { passive: true });
 
-  surface.addEventListener("touchend", (event) => {
-    if (!isStarted || !isSwiping) {
-      isStarted = false;
-      startX = 0;
-      startY = 0;
-      return;
-    }
-
-    const endX = event.changedTouches[0]?.clientX ?? 0;
-    const deltaX = endX - startX;
-
-    const minSwipeDistance = window.innerWidth < 720 ? 25 : 40;
-    if (Math.abs(deltaX) >= minSwipeDistance) {
-      if (deltaX < 0) {
-        showNext();
-      } else {
-        showPrev();
-      }
-    }
-
-    isStarted = false;
-    startX = 0;
-    startY = 0;
-    isSwiping = false;
+  surface.addEventListener('touchend', (event) => {
+    if (!start || !horizontal || navigating || document.body.classList.contains('viewer-open')) return resetGesture();
+    const point = event.changedTouches[0];
+    const dx = point ? point.clientX - start.x : 0;
+    const dy = point ? point.clientY - start.y : 0;
+    resetGesture();
+    if (Math.abs(dx) < (window.innerWidth < 720 ? 25 : 40) || Math.abs(dx) <= Math.abs(dy)) return;
+    const link = surface.querySelector(`[data-work-direction="${dx < 0 ? 'next' : 'prev'}"]`);
+    if (!link) return;
+    navigating = true;
+    // link.click() preserves the common click/transition handling and URL semantics.
+    link.click();
+    suppressClickUntil = Date.now() + 750;
+    // Also release the guard if a browser/user cancels the load.
+    unlockTimer = setTimeout(unlock, 2000);
   }, { passive: true });
-}
-
-function initSlider() {
-  attachSwipe(stage);
-  initDots();
-  updateView(activeIndex);
-}
+  surface.addEventListener('touchcancel', resetGesture, { passive: true });
+  surface.addEventListener('click', (event) => {
+    if (Date.now() < suppressClickUntil) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  }, true);
+})();

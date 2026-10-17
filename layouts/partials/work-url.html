@@ -1,0 +1,8 @@
+{{- $url := .series.RelPermalink -}}
+{{- if ne .index 0 -}}
+  {{- $work := index .series.Params.works .index -}}
+  {{- $pages := where .series.RegularPages "Params.work_id" $work.id -}}
+  {{- if ne (len $pages) 1 }}{{ errorf "Expected one page for work %s in %s" $work.id .series.Path }}{{ end -}}
+  {{- with index $pages 0 }}{{ $url = .RelPermalink }}{{ end -}}
+{{- end -}}
+{{- return $url -}}

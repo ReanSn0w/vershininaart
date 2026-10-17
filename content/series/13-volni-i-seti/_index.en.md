@@ -5,9 +5,10 @@ description: Shri lankian series
 draft: false
 weight: 11
 works:
-- title: Waves and fishing nets
+- id: volni-i-seti-work-1
+  title: Waves and fishing nets
   image:
-    src: volni-i-seti-work-1.1pg
+    src: volni-i-seti-work-1.jpg
     alt: Waves and fishing nets
   technique: Tempera, acrilic
   year: 2026

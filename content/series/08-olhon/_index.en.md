@@ -5,7 +5,8 @@ description: Art series
 draft: false
 weight: 8
 works:
-  - title: Olkhon
+  - id: olhon-work-1
+    title: Olkhon
     image:
       src: olhon-work-1.png
       alt: Painting Olkhon — sheet 1
@@ -13,7 +14,8 @@ works:
     technique: Tempera
     size: 120 × 80
     sheet: 1/4
-  - title: Old house
+  - id: olhon-work-2
+    title: Old house
     image:
       src: olhon-work-2.png
       alt: Painting Olkhon — sheet 2
@@ -21,7 +23,8 @@ works:
     technique: Tempera
     size: 120 × 80
     sheet: 2/4
-  - title: Shaman rock
+  - id: olhon-work-3
+    title: Shaman rock
     image:
       src: olhon-work-3.png
       alt: Painting Olkhon — sheet 3
@@ -29,7 +32,8 @@ works:
     technique: Tempera
     size: 120 × 80
     sheet: 3/4
-  - title: Shaman forest
+  - id: olhon-work-4
+    title: Shaman forest
     image:
       src: olhon-work-4.png
       alt: Painting Olkhon — sheet 4

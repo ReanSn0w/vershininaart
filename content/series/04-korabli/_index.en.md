@@ -5,7 +5,8 @@ description: Art series
 draft: false
 weight: 4
 works:
-  - title: Crossing
+  - id: korabli-work-1
+    title: Crossing
     image:
       src: korabli-work-1.png
       alt: Graphic work Abandoned Ships — sheet 1
@@ -13,7 +14,8 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 1/9
-  - title: Fishing nets
+  - id: korabli-work-2
+    title: Fishing nets
     image:
       src: korabli-work-2.png
       alt: Graphic work Abandoned Ships — sheet 2
@@ -21,7 +23,8 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 2/9
-  - title: field
+  - id: korabli-work-3
+    title: field
     image:
       src: korabli-work-3.png
       alt: Graphic work Abandoned Ships — sheet 3
@@ -29,7 +32,8 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 3/9
-  - title: Boat
+  - id: korabli-work-4
+    title: Boat
     image:
       src: korabli-work-4.png
       alt: Graphic work Abandoned Ships — sheet 4
@@ -37,7 +41,8 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 4/9
-  - title: Ship wreck
+  - id: korabli-work-5
+    title: Ship wreck
     image:
       src: korabli-work-5.png
       alt: Graphic work Abandoned Ships — sheet 5
@@ -45,7 +50,8 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 5/9
-  - title: Waves
+  - id: korabli-work-6
+    title: Waves
     image:
       src: korabli-work-6.png
       alt: Graphic work Abandoned Ships — sheet 6
@@ -53,7 +59,8 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 6/9
-  - title: Boats
+  - id: korabli-work-7
+    title: Boats
     image:
       src: korabli-work-7.png
       alt: Graphic work Abandoned Ships — sheet 7
@@ -61,7 +68,8 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 7/9
-  - title: Skeleton
+  - id: korabli-work-8
+    title: Skeleton
     image:
       src: korabli-work-8.png
       alt: Graphic work Abandoned Ships — sheet 8
@@ -69,7 +77,8 @@ works:
     technique: Graphics
     size: 40 × 60
     sheet: 8/9
-  - title: Abandoned ships
+  - id: korabli-work-9
+    title: Abandoned ships
     image:
       src: korabli-work-9.png
       alt: Graphic work Abandoned Ships — sheet 9

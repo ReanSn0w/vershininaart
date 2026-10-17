@@ -6,7 +6,8 @@ draft: false
 weight: 3
 cardclass: " card--ratio-356-325"
 works:
-  - title: Улов
+  - id: ulov-work-1
+    title: Улов
     image:
       src: ulov-work-1.png
       alt: Графическая работа Улов — лист 1
@@ -14,7 +15,8 @@ works:
     technique: Линогравюра
     size: 29 × 29
     sheet: 1/2
-  - title: Улов
+  - id: ulov-work-2
+    title: Улов
     image:
       src: ulov-work-2.png
       alt: Графическая работа Улов — лист 2

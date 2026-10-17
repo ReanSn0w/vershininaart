@@ -6,7 +6,8 @@ draft: false
 weight: 5
 cardclass: " card--wide"
 works:
-  - title: В потоке
+  - id: vpotoke-work1
+    title: В потоке
     image:
       src: vpotoke-work1.png
       alt: Графическая работа В потоке

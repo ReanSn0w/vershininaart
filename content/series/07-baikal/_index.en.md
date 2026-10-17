@@ -5,7 +5,8 @@ description: Art series
 draft: false
 weight: 7
 works:
-  - title: Baikal
+  - id: baikal-work-1
+    title: Baikal
     image:
       src: baikal-work-1.png
       alt: Painting Baikal — sheet 1
@@ -13,7 +14,8 @@ works:
     technique: Tempera
     size: 80 × 60
     sheet: 1/4
-  - title: Baikal
+  - id: baikal-work-2
+    title: Baikal
     image:
       src: baikal-work-2.png
       alt: Painting Baikal — sheet 2
@@ -21,7 +23,8 @@ works:
     technique: Tempera
     size: 80 × 60
     sheet: 2/4
-  - title: Baikal
+  - id: baikal-work-3
+    title: Baikal
     image:
       src: baikal-work-3.png
       alt: Painting Baikal — sheet 3
@@ -29,7 +32,8 @@ works:
     technique: Tempera
     size: 80 × 60
     sheet: 3/4
-  - title: Baikal
+  - id: baikal-work-4
+    title: Baikal
     image:
       src: baikal-work-4.png
       alt: Painting Baikal — sheet 4

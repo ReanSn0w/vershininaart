@@ -5,7 +5,8 @@ description: Серия о Шри Ланке
 draft: false
 weight: 11
 works:
-- title: Волны и сети
+- id: volni-i-seti-work-1
+  title: Волны и сети
   image:
     src: volni-i-seti-work-1.jpg
     alt: Волны и сети - темпера

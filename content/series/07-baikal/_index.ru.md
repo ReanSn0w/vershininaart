@@ -5,7 +5,8 @@ description: Art series
 draft: false
 weight: 7
 works:
-  - title: Байкал
+  - id: baikal-work-1
+    title: Байкал
     image:
       src: baikal-work-1.png
       alt: Живописная работа Байкал — лист 1
@@ -13,7 +14,8 @@ works:
     technique: Темпера
     size: 80 × 60
     sheet: 1/4
-  - title: Байкал
+  - id: baikal-work-2
+    title: Байкал
     image:
       src: baikal-work-2.png
       alt: Живописная работа Байкал — лист 2
@@ -21,7 +23,8 @@ works:
     technique: Темпера
     size: 80 × 60
     sheet: 2/4
-  - title: Байкал
+  - id: baikal-work-3
+    title: Байкал
     image:
       src: baikal-work-3.png
       alt: Живописная работа Байкал — лист 3
@@ -29,7 +32,8 @@ works:
     technique: Темпера
     size: 80 × 60
     sheet: 3/4
-  - title: Байкал
+  - id: baikal-work-4
+    title: Байкал
     image:
       src: baikal-work-4.png
       alt: Живописная работа Байкал — лист 4

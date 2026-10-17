@@ -11,7 +11,7 @@
 
         <section class="slide__gallery" aria-label="Работы серии">
             {{ $count := 0 }} 
-            {{ $pages := where $site.Pages "Section" "series" }}
+            {{ $pages := where (where $site.Pages "Section" "series") "Kind" "section" }}
             {{ range sort $pages "Weight" "asc" }}
             {{ if eq .Lang $lang }} {{ $params := .Params }} {{ if eq (index
             $params "collection") $collectionId }} {{ $count = add $count 1 }}

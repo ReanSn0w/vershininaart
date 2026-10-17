@@ -5,7 +5,8 @@ description: Art series
 draft: false
 weight: 9
 works:
-  - title: FATA MORGANA
+  - id: fata-morgana-work-1
+    title: FATA MORGANA
     image:
       src: fata-morgana-work-1.jpg
       alt: Fata Morgana — темпера

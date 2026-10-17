@@ -5,7 +5,8 @@ description: Art series
 draft: false
 weight: 1
 works:
-  - title: Fishermen
+  - id: rybaki-work-1
+    title: Fishermen
     image:
       src: rybaki-work-1.png
       alt: Graphic work Fishermen — sheet 1
@@ -13,7 +14,8 @@ works:
     technique: Linocut
     size: 40 × 60
     sheet: 1/2
-  - title: Fishermen
+  - id: rybaki-work-2
+    title: Fishermen
     image:
       src: rybaki-work-2.png
       alt: Graphic work Fishermen — sheet 2

@@ -1,0 +1,25 @@
+{{ $data := partial "artwork-data.html" . }}
+{{ $series := $data.series }}
+{{ $work := $data.work }}
+<main class="series">
+    <h1 class="series__title">{{ $series.Title }}</h1>
+    <div class="series__media">
+        <div class="series__stage">
+            <button class="artwork-open" type="button" aria-label="{{ i18n "openArtwork" }}">
+                {{ $image := $series.Resources.GetMatch $work.image.src }}
+                {{ if not $image }}{{ errorf "Missing artwork %s in %s" $work.image.src $series.Path }}{{ end }}
+                {{ $full := $image.Resize "1600x webp q88" }}
+                <img class="artwork" src="{{ $full.RelPermalink }}" alt="{{ $work.image.alt }}"
+                     width="{{ $full.Width }}" height="{{ $full.Height }}" data-artwork-image />
+            </button>
+        </div>
+        <dl class="series__info">
+            <div class="info__name"><dd>{{ $work.title }}</dd></div>
+            <div class="info__row"><dt>{{ i18n "yearCreated" }}:</dt><dd>{{ $work.year }}</dd></div>
+            <div class="info__row"><dt>{{ i18n "technique" }}:</dt><dd>{{ $work.technique }}</dd></div>
+            <div class="info__row"><dt>{{ i18n "size" }}:</dt><dd>{{ $work.size }}</dd></div>
+            {{ with $work.sheet }}<div class="info__row"><dt>{{ i18n "sheet" }}:</dt><dd>{{ . }}</dd></div>{{ end }}
+        </dl>
+    </div>
+</main>
+<script src="/js/image-viewer.js"></script>

@@ -5,7 +5,8 @@ description: Art series
 draft: false
 weight: 11
 works:
-  - title: Берег
+  - id: bereg-1
+    title: Берег
     image:
       src: bereg-1.png
       alt: Берег
@@ -13,7 +14,8 @@ works:
     technique: Офорт
     size: 20 × 20
     sheet: 1/2
-  - title: Утес
+  - id: bereg-2
+    title: Утес
     image:
       src: bereg-2.png
       alt: Утес

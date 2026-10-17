@@ -5,7 +5,8 @@ description: Art series
 draft: false
 weight: 10
 works:
-  - title: Whale Skeleton
+  - id: skelet-work-1
+    title: Whale Skeleton
     image:
       src: skelet-work-1.png
       alt: Sculpture Whale Skeleton — view 1
@@ -13,7 +14,8 @@ works:
     technique: Plaster
     size: 48 × 12 × 13
     sheet: 1/2
-  - title: Whale Skeleton
+  - id: skelet-work-2
+    title: Whale Skeleton
     image:
       src: skelet-work-2.png
       alt: Sculpture Whale Skeleton — view 2

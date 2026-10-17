@@ -1,0 +1,20 @@
+{{- $series := . -}}
+{{- if .Params.work_id }}{{ $series = .Parent }}{{ end -}}
+{{- $result := dict -}}
+{{- with $series.Params.works -}}
+  {{- $index := 0 -}}
+  {{- $work := index . 0 -}}
+  {{- if $.Params.work_id -}}
+    {{- $found := false -}}
+    {{- range $i, $candidate := . -}}
+      {{- if eq $candidate.id $.Params.work_id -}}
+        {{- $work = $candidate -}}{{- $index = $i -}}{{- $found = true -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if not $found }}{{ errorf "Unknown work_id %q in %s" $.Params.work_id $.Path }}{{ end -}}
+  {{- end -}}
+  {{- $title := $work.title -}}
+  {{- with $work.sheet }}{{ $title = printf "%s — %s %s" $title (i18n "sheet") . }}{{ end -}}
+  {{- $result = dict "series" $series "work" $work "index" $index "title" $title -}}
+{{- end -}}
+{{- return $result -}}

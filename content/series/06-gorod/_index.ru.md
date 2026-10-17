@@ -5,7 +5,8 @@ description: Art series
 draft: false
 weight: 6
 works:
-  - title: Лестницы
+  - id: gorod-work-1
+    title: Лестницы
     image:
       src: gorod-work-1.png
       alt: Графическая работа Серия Город — лист 1
@@ -13,7 +14,8 @@ works:
     technique: Офорт
     size: 20 × 29
     sheet: 1/2
-  - title: Двор
+  - id: gorod-work-2
+    title: Двор
     image:
       src: gorod-work-2.png
       alt: Графическая работа Серия Город — лист 2

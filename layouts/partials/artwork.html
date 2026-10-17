@@ -8,7 +8,7 @@
         <div class="series__stage">
             {{ if gt $count 1 }}
             {{ $prev := mod (add $data.index (sub $count 1)) $count }}
-            <a class="nav nav--prev" href="{{ partial "work-url.html" (dict "series" $series "index" $prev) }}"
+            <a class="nav nav--prev" href="{{ partial "work-url.html" (dict "series" $series "index" $prev) }}" data-transition-image="{{ partial "work-image-url.html" (dict "series" $series "index" $prev) }}"
                aria-label="{{ i18n "prevWork" }}" data-work-direction="prev"><img src="/img/btn_Previous.svg" alt="" /></a>
             {{ end }}
             <button class="artwork-open" type="button" aria-label="{{ i18n "openArtwork" }}">
@@ -20,7 +20,7 @@
             </button>
             {{ if gt $count 1 }}
             {{ $next := mod (add $data.index 1) $count }}
-            <a class="nav nav--next" href="{{ partial "work-url.html" (dict "series" $series "index" $next) }}"
+            <a class="nav nav--next" href="{{ partial "work-url.html" (dict "series" $series "index" $next) }}" data-transition-image="{{ partial "work-image-url.html" (dict "series" $series "index" $next) }}"
                aria-label="{{ i18n "nextWork" }}" data-work-direction="next"><img src="/img/btn_Next.svg" alt="" /></a>
             {{ end }}
         </div>
@@ -28,7 +28,7 @@
         <nav class="slider-dots" aria-label="{{ i18n "works" }}">
             {{ range $i, $item := $series.Params.works }}
             <a class="slider-dot{{ if eq $i $data.index }} active{{ end }}"
-               href="{{ partial "work-url.html" (dict "series" $series "index" $i) }}"
+               href="{{ partial "work-url.html" (dict "series" $series "index" $i) }}" data-transition-image="{{ partial "work-image-url.html" (dict "series" $series "index" $i) }}"
                aria-label="{{ i18n "goToWork" }} {{ add $i 1 }}"
                {{ if eq $i $data.index }}aria-current="page"{{ else }}data-work-direction="{{ if gt $i $data.index }}next{{ else }}prev{{ end }}"{{ end }}></a>
             {{ end }}

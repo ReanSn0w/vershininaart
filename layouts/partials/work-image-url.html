@@ -1,0 +1,4 @@
+{{- $work := index .series.Params.works .index -}}
+{{- $image := .series.Resources.GetMatch $work.image.src -}}
+{{- $full := $image.Resize "1600x webp q88" -}}
+{{- return $full.RelPermalink -}}

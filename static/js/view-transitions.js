@@ -7,6 +7,34 @@
   let pending = null;
   let arrival = null;
   let initialized = false;
+  let imageWait = null;
+  const imageWaitLimit = 1800;
+
+  // Wait on the departing page: async pagereveal handlers cannot delay snapshots.
+  function cancelImageWait() {
+    imageWait?.cancel();
+    imageWait = null;
+    delete root.dataset.navigationLoading;
+  }
+  function prepareImage(src) {
+    const image = new Image();
+    let timer;
+    let complete;
+    const done = new Promise((resolve) => { complete = resolve; });
+    const finish = () => {
+      clearTimeout(timer);
+      image.onload = image.onerror = null;
+      complete();
+    };
+    timer = setTimeout(finish, imageWaitLimit);
+    image.onerror = finish;
+    image.onload = () => {
+      if (image.decode) image.decode().then(finish, finish);
+      else finish();
+    };
+    image.src = src;
+    return { done, cancel: finish };
+  }
 
   function route(value) {
     try {
@@ -114,10 +142,31 @@
     const link = event.target.closest?.('a[href]');
     if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
         link.hasAttribute('download') || (link.target && link.target !== '_self')) return;
+    cancelImageWait();
     const target = route(link.href);
     if (!target || target.url.pathname === location.pathname) return;
-    pending = { url: link.href, direction: link.dataset.workDirection || null };
-    departure(link.href); // Fallback for browsers without pageswap.
+    const intent = { url: link.href, direction: link.dataset.workDirection || null };
+    const src = link.dataset.transitionImage;
+    if (!src || reducedMotion.matches || !('onpageswap' in window) || !document.startViewTransition) {
+      pending = intent;
+      departure(link.href); // Fallback for browsers without pageswap.
+      return;
+    }
+    event.preventDefault();
+    const wait = prepareImage(src);
+    imageWait = wait;
+    root.dataset.navigationLoading = '';
+    wait.done.then(() => {
+      if (imageWait !== wait) return; // A newer click, Escape or departure superseded this one.
+      imageWait = null;
+      delete root.dataset.navigationLoading;
+      pending = intent;
+      departure(intent.url);
+      location.assign(intent.url);
+    });
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') cancelImageWait();
   });
   document.addEventListener('DOMContentLoaded', initialize);
 
@@ -261,6 +310,7 @@
     settle(event.viewTransition);
   });
   window.addEventListener('pagehide', () => {
+    cancelImageWait();
     initialized = false;
     arrival = null;
   });

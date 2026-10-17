@@ -21,7 +21,7 @@
             range $i, $part := $parts }} {{ if eq $part "series" }} {{
             $seriesName = index $parts (add $i 1) }} {{ end }} {{ end }}
             {{ $imgRes := .Resources.GetMatch $firstWork.image.src }}
-            <a class="card {{ $params.cardclass }}" href="{{ .RelPermalink }}" data-work-id="{{ $firstWork.id }}">
+            <a class="card {{ $params.cardclass }}" href="{{ .RelPermalink }}" data-work-id="{{ $firstWork.id }}" data-transition-image="{{ partial "work-image-url.html" (dict "series" . "index" 0) }}">
                 <figure class="card__media">
                     {{ if $imgRes }}
                         {{ $thumbSpec := partial "card-thumb-spec.html" (dict "cardclass" $params.cardclass) }}

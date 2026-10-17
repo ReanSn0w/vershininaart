@@ -28,9 +28,22 @@ function environment(path, opts = {}) {
   document.querySelector = (selector) => ({ '[data-artwork-image]': image, '.series__info': info, '[data-gallery-back]': back })[selector];
   document.querySelectorAll = (selector) => selector === '.card[data-work-id]' ? [card] : elements.filter(e => 'transitionNamed' in e.dataset);
   const history = { state: opts.state || null, replaceState(value) { this.state = value; } };
+  const requests = [], assigned = [], timers = new Map();
+  let timerID = 0;
+  if (opts.imageWait) {
+    window.onpageswap = null;
+    document.startViewTransition = () => {};
+  }
+  url.assign = (target) => assigned.push(target);
   window.navigation = opts.navigation;
   window.scrollY = opts.scroll || 0;
   const env = { document, window, history, location: url, URL, Date, innerWidth: 1200, innerHeight: 800, scrollY: window.scrollY,
+    Image: class {
+      constructor() { requests.push(this); }
+      decode() { return opts.decode ? opts.decode() : Promise.resolve(); }
+    },
+    setTimeout: fn => { timers.set(++timerID, fn); return timerID; },
+    clearTimeout: id => timers.delete(id),
     matchMedia: () => ({matches: !!opts.reduced}),
     performance: { getEntriesByType: () => [{ type: opts.loadType || 'navigate' }] },
     sessionStorage: { removeItem: k => store.delete(k), getItem: k => { if (opts.blockStorage) throw Error('denied'); return store.get(k) || null; }, setItem: (k,v) => { if (opts.blockStorage) throw Error('denied'); store.set(k,v); } },
@@ -42,7 +55,10 @@ function environment(path, opts = {}) {
   }
   function click(to, direction, extra = {}) {
     const link = {href: new URL(to, url).href, dataset: {workDirection: direction}, hasAttribute: () => false};
-    document.fire('click', {target: {closest: () => link}, button: 0, ...extra});
+    if (opts.imageWait) link.dataset.transitionImage = 'https://example.test/image.webp';
+    let prevented = false;
+    document.fire('click', {target: {closest: () => link}, button: 0, preventDefault: () => { prevented = true; }, ...extra});
+    return prevented;
   }
   function leave(to, direction, activation) {
     click(to, direction);
@@ -50,7 +66,7 @@ function environment(path, opts = {}) {
     window.fire('pageswap', {activation: activation || {entry: {url:new URL(to,url).href}, navigationType:'push'}, viewTransition:t});
     return {value:JSON.parse(store.get('art-navigation') || 'null'), transition:t};
   }
-  return {window, document, root, image, back, history, store, env, transition, click, leave};
+  return {window, document, root, image, back, history, store, env, transition, click, leave, requests, assigned, timers};
 }
 
 test('gallery context survives page turns and restores exact scroll', () => {
@@ -182,4 +198,67 @@ test('vertical, short, cancelled, multitouch and viewer gestures never navigate'
   e.surface.fire('touchend',{changedTouches:[e.touch(40,100)]});
   e.setOpen(true); e.gesture(-80,0);
   assert.deepEqual(e.clicks,[]);
+});
+
+const flush = async () => { for (let i=0; i<5; i++) await Promise.resolve(); };
+test('navigation waits for both image load and decode before assigning URL', async () => {
+  let decoded;
+  const e=environment('/series/a/', {imageWait:true, decode:()=>new Promise(resolve=>decoded=resolve)});
+  assert.equal(e.click('/series/a/two/', 'next'),true);
+  assert.equal(e.root.dataset.navigationLoading,'');
+  assert.equal(e.assigned.length,0);
+  e.requests[0].onload(); await flush();
+  assert.equal(e.assigned.length,0);
+  decoded(); await flush();
+  assert.deepEqual(e.assigned,['https://example.test/series/a/two/']);
+  assert.equal(e.root.dataset.navigationLoading,undefined);
+  assert.equal(JSON.parse(e.store.get('art-navigation')).direction,'next');
+  assert.equal(e.timers.size,0);
+});
+test('failed, undecodable and stalled images still navigate', async () => {
+  for (const failure of ['error','decode','timeout']) {
+    const e=environment('/series/a/', {imageWait:true,decode:()=>Promise.reject(Error('bad image'))});
+    e.click('/series/a/two/','next');
+    if(failure==='error') e.requests[0].onerror();
+    if(failure==='decode') e.requests[0].onload();
+    if(failure==='timeout') [...e.timers.values()][0]();
+    await flush();
+    assert.equal(e.assigned.length,1);
+    assert.equal(e.root.dataset.navigationLoading,undefined);
+  }
+});
+test('new click supersedes pending navigation and Escape or departure cancels it', async () => {
+  const e=environment('/series/a/',{imageWait:true});
+  e.click('/series/a/two/','next');
+  e.click('/series/a/three/','next');
+  await flush(); assert.equal(e.assigned.length,0);
+  e.requests[1].onload(); await flush();
+  assert.deepEqual(e.assigned,['https://example.test/series/a/three/']);
+  for(const event of ['escape','pagehide']) {
+    const cancelled=environment('/series/a/',{imageWait:true});
+    cancelled.click('/series/a/two/','next');
+    if(event==='escape') cancelled.document.fire('keydown',{key:'Escape'});
+    else cancelled.window.fire('pagehide');
+    await flush();
+    assert.equal(cancelled.assigned.length,0);
+    assert.equal(cancelled.timers.size,0);
+    assert.equal(cancelled.root.dataset.navigationLoading,undefined);
+  }
+});
+test('modified clicks and reduced motion bypass image wait', () => {
+  const modified=environment('/series/a/',{imageWait:true});
+  assert.equal(modified.click('/series/a/two/','next',{ctrlKey:true}),false);
+  assert.equal(modified.requests.length,0);
+  const reduced=environment('/series/a/',{imageWait:true,reduced:true});
+  assert.equal(reduced.click('/series/a/two/','next'),false);
+  assert.equal(reduced.requests.length,0);
+});
+
+test('same-page link cancels an earlier delayed navigation', async () => {
+  const e=environment('/series/a/',{imageWait:true});
+  e.click('/series/a/two/','next');
+  assert.equal(e.click('/series/a/#details'),false);
+  await flush();
+  assert.equal(e.assigned.length,0);
+  assert.equal(e.timers.size,0);
 });

@@ -57,6 +57,10 @@ for series in sorted(Path('content/series').glob('*/_index.ru.md')):
                 assert nxt['href'] == urls[(index + 1) % len(ids)]
                 assert [a['href'] for a in dots] == urls
                 assert [i for i, a in enumerate(dots) if a.get('aria-current') == 'page'] == [index]
+            for link in nav + dots:
+                target = Page(output / link['href'].lstrip('/') / 'index.html')
+                target_image, = [a for a in target.images if 'data-artwork-image' in a]
+                assert link['data-transition-image'] == target_image['src']
             count += 1
     assert bilingual_ids[0] == bilingual_ids[1], series
 
@@ -65,6 +69,12 @@ for lang in ['', 'en/']:
     cards = [a for a in home.links if 'card' in a.get('class', '').split()]
     assert len(cards) == 13
     assert all('data-work-id' in a for a in cards)
+    for card in cards:
+        target = Page(output / card['href'].lstrip('/') / 'index.html')
+        target_image, = [a for a in target.images if 'data-artwork-image' in a]
+        assert card['data-transition-image'] == target_image['src']
+        back, = [a for a in target.links if 'data-gallery-back' in a]
+        assert back['data-transition-image'] in [image['src'] for image in home.images]
     assert all((output / a['href'].lstrip('/') / 'index.html').is_file() for a in cards)
 
 rendered_count = sum(Page(p).root.get('data-page-kind') == 'work' for p in output.rglob('index.html'))

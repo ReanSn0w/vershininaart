@@ -110,3 +110,7 @@ html[data-transition="work-prev"]::view-transition-new(work-info) { animation-na
     }
     .artwork, .site-header, body { animation: none !important; transition: none !important; }
 }
+
+/* Keep the current page interactive while preparing only the chosen image. */
+html[data-navigation-loading],
+html[data-navigation-loading] a { cursor: progress; }

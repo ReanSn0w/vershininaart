@@ -1,9 +1,14 @@
 <!doctype html>
-<html lang="{{ .Site.Language.Lang }}">
+{{ $art := partial "artwork-data.html" . }}
+{{ $kind := "other" }}
+{{ if or .IsHome (and (eq .Section "series") (not $art)) }}{{ $kind = "gallery" }}
+{{ else if $art }}{{ $kind = "work" }}
+{{ else if in (slice "about" "cv" "contacts") .Section }}{{ $kind = "info" }}{{ end }}
+<html lang="{{ .Site.Language.Lang }}" data-page-kind="{{ $kind }}"
+      {{ if $art }}data-series="{{ $art.series.RelPermalink }}" data-work-id="{{ $art.work.id }}" data-work-index="{{ $art.index }}"{{ end }}>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{ $art := partial "artwork-data.html" . }}
     <meta name="description" content="{{ if $art }}{{ $art.work.image.alt }}{{ else }}{{ with .Description }}{{ . }}{{ else }}Портфолио художника Анны Вершининой | Portfolio of artist Anna Vershinina{{ end }}{{ end }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,6 +16,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <title>{{ if $art }}{{ $art.title }}{{ else }}{{ .Title }}{{ end }} | {{ .Site.Title }}</title>
     <link rel="stylesheet" href="{{ if .IsHome }}/css/index.css{{else}}/css/page.css{{ end }}">
+    <link rel="stylesheet" href="/css/view-transitions.css">
+    <script src="/js/view-transitions.js"></script>
 </head>
 <body>
     {{ partial "header.html" . }}

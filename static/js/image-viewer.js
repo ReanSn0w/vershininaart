@@ -49,6 +49,23 @@ if (viewerOpenButtons.length && viewerImageSource) {
   let pinchStartDistance = 0;
   let pinchStartZoom = 1;
   const activePointers = new Map();
+  let desiredOpen = false;
+  let transitioning = false;
+  let opener = null;
+  const background = new Map();
+
+  function isolateBackground(open) {
+    if (open) {
+      Array.from(document.body.children).forEach((element) => {
+        if (element === viewer || ['SCRIPT', 'STYLE'].includes(element.tagName)) return;
+        background.set(element, element.inert);
+        element.inert = true;
+      });
+    } else {
+      background.forEach((inert, element) => { element.inert = inert; });
+      background.clear();
+    }
+  }
 
   function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
@@ -76,20 +93,64 @@ if (viewerOpenButtons.length && viewerImageSource) {
     applyTransform();
   }
 
-  function openViewer() {
-    image.src = viewerImageSource.currentSrc || viewerImageSource.src;
-    image.alt = viewerImageSource.alt || "";
-    resetView();
-    viewer.classList.add("is-open");
-    document.body.classList.add("viewer-open");
-    closeButton.focus();
+  function cleanTransition() {
+    viewerImageSource.style.removeProperty('view-transition-name');
+    image.style.removeProperty('view-transition-name');
+    viewer.style.removeProperty('view-transition-name');
+    delete document.documentElement.dataset.transition;
+    transitioning = false;
+    reconcileViewer();
+  }
+
+  function reconcileViewer() {
+    const isOpen = viewer.classList.contains('is-open');
+    if (transitioning || desiredOpen === isOpen) return;
+    const open = desiredOpen;
+    transitioning = true;
+    if (open) {
+      image.src = viewerImageSource.currentSrc || viewerImageSource.src;
+      image.alt = viewerImageSource.alt || '';
+      resetView();
+    }
+    const update = () => {
+      viewer.classList.toggle('is-open', open);
+      document.body.classList.toggle('viewer-open', open);
+      isolateBackground(open);
+      viewerImageSource.style.viewTransitionName = open ? 'none' : 'artwork';
+      image.style.viewTransitionName = open ? 'artwork' : 'none';
+      if (open) closeButton.focus({ preventScroll: true });
+      else {
+        activePointers.clear();
+        lastPointer = null;
+        stage.classList.remove('is-dragging');
+        opener?.focus({ preventScroll: true });
+        // Reset only after the old (possibly zoomed/panned) snapshot is captured.
+        resetView();
+      }
+    };
+    const setup = () => {
+      document.documentElement.dataset.transition = open ? 'viewer-open' : 'viewer-close';
+      viewer.style.viewTransitionName = 'viewer-panel';
+      viewerImageSource.style.viewTransitionName = open ? 'artwork' : 'none';
+      image.style.viewTransitionName = open ? 'none' : 'artwork';
+    };
+    if (window.artTransitions && viewerImageSource.complete && viewerImageSource.naturalWidth) {
+      window.artTransitions.run(update, setup, cleanTransition);
+    } else {
+      update();
+      cleanTransition();
+    }
+  }
+
+  function openViewer(event) {
+    if (!desiredOpen) opener = event?.currentTarget || viewerOpenButtons[0];
+    desiredOpen = true;
+    reconcileViewer();
   }
 
   function closeViewer() {
-    viewer.classList.remove("is-open");
-    document.body.classList.remove("viewer-open");
-    activePointers.clear();
-    lastPointer = null;
+    desiredOpen = false;
+    reconcileViewer();
   }
 
   function getPointerDistance() {
@@ -169,11 +230,30 @@ if (viewerOpenButtons.length && viewerImageSource) {
   stage.addEventListener("pointercancel", releasePointer);
 
   document.addEventListener("keydown", (event) => {
+    if (event.key === 'Escape' && desiredOpen) {
+      event.preventDefault();
+      closeViewer();
+      return;
+    }
     if (!viewer.classList.contains("is-open")) return;
 
-    if (event.key === "Escape") closeViewer();
+    if (event.key === 'Tab') {
+      const controls = [zoomOutButton, resetButton, zoomInButton, closeButton];
+      const index = controls.indexOf(document.activeElement);
+      event.preventDefault();
+      controls[(index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length].focus();
+    }
     if (event.key === "+" || event.key === "=") setZoom(zoom + 0.5);
     if (event.key === "-") setZoom(zoom - 0.5);
     if (event.key === "0") resetView();
+  });
+
+  window.addEventListener('pagehide', () => {
+    desiredOpen = false;
+    viewer.classList.remove('is-open');
+    document.body.classList.remove('viewer-open');
+    isolateBackground(false);
+    activePointers.clear();
+    lastPointer = null;
   });
 }

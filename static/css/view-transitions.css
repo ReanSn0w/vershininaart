@@ -59,6 +59,18 @@ html[data-transition="info-close"]::view-transition-new(root) {
 @keyframes gallery-recede { from { transform: translateX(0); opacity: 1; } to { transform: translateX(-6%); opacity: 0.65; } }
 @keyframes gallery-return { from { transform: translateX(-6%); opacity: 0.65; } to { transform: translateX(0); opacity: 1; } }
 
+html[data-transition^="viewer-"]::view-transition-old(root),
+html[data-transition^="viewer-"]::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+html[data-transition^="viewer-"]::view-transition-group(viewer-panel) { z-index: 2; }
+html[data-transition^="viewer-"]::view-transition-group(artwork) { z-index: 3; }
+::view-transition-old(viewer-panel),
+::view-transition-new(viewer-panel) {
+    animation-duration: var(--transition-artwork-duration);
+}
+
 @media (prefers-reduced-motion: reduce) {
     @view-transition { navigation: none; }
     ::view-transition-group(*),
